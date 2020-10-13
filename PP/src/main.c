@@ -170,7 +170,7 @@ int main(void)
             case 8: // INFORMES
                 if(flagAltaCliente == 1 && flagAltaPublicacion == 1)
                 {
-                    bufferResultado = informes_Informes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS);
+                    bufferResultado = informes_GenerarInformes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS);
                     if(bufferResultado == 0)
                     {
                         printf("\n >>>>> INFORME GENERADO CON EXITO <<<<<\n");

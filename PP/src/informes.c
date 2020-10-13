@@ -218,7 +218,7 @@ int informes_CalcularCantidadDeAvisosPausados(Publicacion *puArray, int lenPubli
  * @param lenCliente: La longitud del array de tipo Cliente
  * @return (-1) Error (0) todo OK
  */
-int informes_Informes(Publicacion *puArray, int lenPublicacion, Cliente *paArray, int lenCliente, Rubro *ruArray, int lenRubro)
+int informes_GenerarInformes(Publicacion *puArray, int lenPublicacion, Cliente *paArray, int lenCliente, Rubro *ruArray, int lenRubro)
 {
     int output = -1;
     int flagGeneroInforme = 0;
