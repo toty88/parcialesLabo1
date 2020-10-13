@@ -142,6 +142,31 @@ static int cliente_GenerateId(int *ClienteID) {
 }
 
 /**
+ * @fn int cliente_IsCuitValid(char*)
+ * @brief Funcion que solicita verifica longitud de cuit
+ *
+ * @param bufferCuit: El char que almacena el cuit a verificar
+ * @return (0) Error (1) todo OK
+ */
+int cliente_IsCuitValid(char *bufferCuit)
+{
+	int output = 0;
+	int contador = 0;
+	if(bufferCuit != NULL)
+	{
+		for(int x = 0; bufferCuit[x] != '\0'; x++)
+		{
+			contador++;
+		}
+		if(contador == 11)
+		{
+			output = 1;
+		}
+	}
+	return output;
+}
+
+/**
  * @fn int cliente_Create(Cliente*, int)
  * @brief Funcion que solicita los campos de un elemento de tipo Cliente
  *
@@ -154,13 +179,20 @@ int cliente_Create(Cliente *pArray, int len) {
     int output = -1;
     Cliente bufferAux;
     int bufferIndex;
+    int bufferResultado;
 
     if (pArray != NULL && len > 0 && !(cliente_FindFree(pArray, len, &bufferIndex))) {
         if (!(utn_getString("(a). Ingrese nombre: ", "Error, reintentos", bufferAux.name, SIZE_STR, 3))
                 && !(utn_getString("(b). Ingrese apellido: ", "Error, reintentos", bufferAux.lastName, SIZE_STR, 3))
-                && !(utn_getStringWithNumbers("Ingrese CUIT: ", "Error,  reintentos", bufferAux.cuit, SIZE_STR, 3))
                 && !(cliente_GenerateId(&bufferAux.id)))
         {
+		do
+		{
+                	if(!(utn_getStringWithNumbers("(c). Ingrese CUIT de 11 digitos: ", "Error,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
+			{
+				bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
+			}
+		}while(bufferResultado == 0);
 
             pArray[bufferIndex] = bufferAux;
             pArray[bufferIndex].isEmpty = FALSE;

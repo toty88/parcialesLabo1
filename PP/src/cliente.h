@@ -24,6 +24,7 @@ int cliente_HardCodeo(Cliente*);
 int cliente_FindFree(Cliente*, int, int*);
 int cliente_FindById(Cliente*, int, int, int*);
 int cliente_DoesIdExist(Cliente*, int, int);
+int cliente_IsCuitValid(char*);
 int cliente_Create(Cliente*, int);
 int cliente_PrintOne(Cliente);
 int cliente_printAll(Cliente*, int);
