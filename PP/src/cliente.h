@@ -28,11 +28,5 @@ int cliente_Create(Cliente*, int);
 int cliente_PrintOne(Cliente);
 int cliente_printAll(Cliente*, int);
 int cliente_Modify(Cliente*, int);
-int cliente_Reports(Cliente*, int);
-
-int cliente_Sort(Cliente*, int, int);
-//int getClientesAverageSalary(Cliente*, int, float*, float*);
-//int getClientesAboveAverageSalary(Cliente*, int, int);
-
 
 #endif /* CLIENTE_H_ */

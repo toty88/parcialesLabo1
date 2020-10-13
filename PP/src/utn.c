@@ -83,7 +83,6 @@ int utn_getString(char *msg, char *msgError, char *pCadena, int limite, int rein
     return output;
 }
 
-
 /**
  * @fn int utn_isAlphanumeric(char*)
  * @brief Funcion que chequea si una cadena es alfanumerica

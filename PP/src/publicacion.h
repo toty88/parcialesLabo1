@@ -27,13 +27,11 @@ int publicacion_HardCodeo(Publicacion*);
 int publicacion_FindFree(Publicacion*, int, int*);
 int publicacion_FindById(Publicacion*, int, int, int*);
 int publicacion_FindByClientId(Publicacion*, int, int, int*);
-int publicacion_DoesIdExist(Publicacion*, int, int);
 int publicacion_Create(Publicacion*, int, int*);
+int publicacion_Remove(Publicacion*, int, int);
 int publicacion_PrintOne(Publicacion);
 int publicacion_printAll(Publicacion*, int);
-int publicacion_Modify(Publicacion*, int);
-int publicacion_Reports(Publicacion*, int);
-int publicacion_Remove(Publicacion*, int, int);
-int publicacion_Sort(Publicacion*, int, int);
+
+
 
 #endif /* PUBLICACION_H_ */

@@ -16,7 +16,7 @@ int publicacion_HardCodeo(Publicacion *puArray) {
     int output = -1;
     int bufferID[5] =           {   1000, 1001,   1002,   1003,   1004    };
     int bufferClienteID[5] =    {   100,  101,    102,    103,    100     };
-    int bufferRubro[5] =        {   4,    1,      2,      3,      4       };
+    int bufferRubro[5] =        {   4,    1,      2,      2,      4       };
 
     char bufferDescripcion[5][SIZE_AVISO] = {   "SE VENDEN ZAPATOS AL POR MAYOR",
                                                 "ROBERTO... QUE EN PAZ DESCANCES",
@@ -99,29 +99,6 @@ int publicacion_FindByClientId(Publicacion *puArray, int len, int id, int *index
             if (puArray[x].idCliente == id && puArray[x].isEmpty == FALSE) {
                 *indexPosition = x;
                 output = 0;
-                break;
-            }
-        }
-    }
-    return output;
-}
-
-/**
- * @fn int publicacion_DoesIdExist(Publicacion*, int, int)
- * @brief Funcion que pregunta si existe un determinado ID dentro del array de tipo Publicacion
- *
- * @param puArray: EL puntero al array de tipo Publicacion
- * @param len: La longitud del array de tipo Publicacion
- * @param id: El ID a comparar
- * @return (0) No existe (1) Existe
- */
-int publicacion_DoesIdExist(Publicacion *puArray, int len, int id) {
-
-    int output = 0;
-    if (puArray != NULL && len > 0 && id > 0) {
-        for (int x = 0; x < len; x++) {
-            if (puArray[x].id == id && puArray[x].isEmpty == FALSE) {
-                output = 1;
                 break;
             }
         }
@@ -279,30 +256,3 @@ int publicacion_printAll(Publicacion *puArray, int len) {
 
 
 
-/* POSIBLES FUNCIONES */
-
-// crear aviso con rubros definidos
-//int publicacion_Create(Publicacion *puArray, int lenPublicacion, int *bufferIndice)
-//{
-//    int output = -1;
-//    Publicacion bufferAux;
-//    int bufferIndex;
-//
-//    if (puArray != NULL && lenPublicacion > 0&& !(publicacion_FindFree(puArray, lenPublicacion, &bufferIndex)))
-//    {
-//        if (!(utn_getIntConMinMax("\n(a). SELECCIONE RUBRO\n\t(0). CLASIFICADOS\n\t(1). OBITUARIOS\n\t(2). DEPORTES\n\t(3). "
-//                "POLICIALES\n\t(4). EMPLEOS -------------> ", "Error, rubro incorrecto - reintentos",
-//                &bufferAux.numeroRubro, 0, 4, 3))
-//                && !(utn_getStringWithNumbersAndSymbols("(b). INGRESE DESCRIPCION DEL AVISO: ", "Error, reintentos",
-//                bufferAux.descripcionAviso, SIZE_AVISO, 3))
-//                && !(publicacion_GenerateId(&bufferAux.id)))
-//        {
-//            *bufferIndice = bufferIndex;
-//            puArray[bufferIndex] = bufferAux;
-//            puArray[bufferIndex].isEmpty = FALSE;
-//            puArray[bufferIndex].estado = ACTIVA;
-//            output = 0;
-//        }
-//    }
-//    return output;
-//}

@@ -6,7 +6,14 @@
 #include"cliente_publicacion.h"
 
 
-
+/**
+ * @fn int rubro_Init(Rubro*, int)
+ * @brief Funcion que setea el campo isEmpty de un elemento de tipo Rubro en TRUE
+ *
+ * @param ruArray: El puntero al array de tipo Rubro
+ * @param lenRubro: La longitud del array de tipo Rubro
+ * @return (-1) Error (0) todo OK
+ */
 int rubro_Init(Rubro *ruArray, int lenRubro)
 {
     int output = -1;
@@ -21,6 +28,15 @@ int rubro_Init(Rubro *ruArray, int lenRubro)
     return output;
 }
 
+/**
+ * @fn int rubro_ExisteRubro(Rubro*, int, int)
+ * @brief Funcion que corrobora si existe un rubro en el array de tipo Rubro
+ *
+ * @param ruArray: El puntero al array de tipo Rubro
+ * @param lenRubro: La longitud del array de tipo Rubro
+ * @param bufferRubro: El numero de rubro que existe en un array de tipo Publicacion a comparar con los rubros del array de tipo Rubro
+ * @return (0) No existe (1) Existe
+ */
 int rubro_ExisteRubro(Rubro *ruArray, int lenRubro, int bufferRubro)
 {
     int output = 0;
@@ -38,6 +54,15 @@ int rubro_ExisteRubro(Rubro *ruArray, int lenRubro, int bufferRubro)
     return output;
 }
 
+/**
+ * @fn int rubro_GenerarRubros(Rubro*, int, Publicacion*)
+ * @brief Funcion que carga el array de Rubros con numeros de rubros nuevos
+ *
+ * @param ruArray: El puntero al array de tipo Rubro
+ * @param lenRubro: La longitud del array de tipo Rubro
+ * @param puArray: El puntero al array de tipo Publicacion
+ * @return (-1) Error (0) todo OK
+ */
 int rubro_GenerarRubros(Rubro *ruArray, int lenRubro, Publicacion *puArray)
 {
     int output = -1;
@@ -59,12 +84,23 @@ int rubro_GenerarRubros(Rubro *ruArray, int lenRubro, Publicacion *puArray)
     return output;
 }
 
+/**
+ * @fn int rubro_CalcularRubroConMasAvisos(Rubro*, int, Publicacion*, int, int*)
+ * @brief Funcion que calcula el rubro que aparece en mas avisos
+ *
+ * @param ruArray: El puntero al array de tipo Rubro
+ * @param lenRubro: La longitud del array de tipo Rubro
+ * @param puArray: El puntero al array de tipo Publicacion
+ * @param lenPublicacion: La longitud del array de tipo Publicacion
+ * @param pResultado: El puntero a int donde se guardara el numero de Rubro que aparece en mas avisos
+ * @return (-1) Error (0) todo OK
+ */
 int rubro_CalcularRubroConMasAvisos(Rubro *ruArray, int lenRubro, Publicacion *puArray, int lenPublicacion, int *pResultado)
 {
     int output = -1;
     int bufferContador = 0;
     int bufferMax;
-    int bufferRubro;
+
     if (ruArray != NULL && lenRubro > 0 && puArray != NULL && lenPublicacion > 0 && pResultado != NULL)
     {
         for (int x = 0; x < lenRubro; x++)
@@ -84,10 +120,15 @@ int rubro_CalcularRubroConMasAvisos(Rubro *ruArray, int lenRubro, Publicacion *p
                     *pResultado = ruArray[x].rubro;
                     output = 0;
                 }
+                else if (bufferMax == bufferContador)
+                {
+                        *pResultado = -1;
+                }
+
                 bufferContador = 0;
             }
         }
-        //*pResultado = bufferRubro;
+
     }
     return output;
 }
@@ -152,6 +193,10 @@ int cliente_publicacion_CreatePublicidad(Publicacion *puArray, int lenPublicacio
                     }
                     break;
                 case 4:
+                    if(flag == 0)
+                    {
+                        output = 1;
+                    }
                     printf("VOLVIENDO AL MENU PRINCIPAL\n");
                     break;
                 default:
@@ -617,6 +662,7 @@ int cliente_publicacion_CalcularRubroConMasAvisos(Publicacion *puArray, int lenP
 int cliente_publicacion_Informes(Publicacion *puArray, int lenPublicacion, Cliente *paArray, int lenCliente, Rubro *ruArray, int lenRubro)
 {
     int output = -1;
+    int flagGeneroInforme = 0;
     int bufferOpcionInformes;
     int bufferTotalAvisos;
     int bufferClienteConMasAvisosIndex;
@@ -634,6 +680,7 @@ int cliente_publicacion_Informes(Publicacion *puArray, int lenPublicacion, Clien
                     {
                         printf("\nEL CLIENTE CON MAS AVISOS ES %s %s CON UN TOTAL DE %d\n", paArray[bufferClienteConMasAvisosIndex].name, paArray[bufferClienteConMasAvisosIndex].lastName, bufferTotalAvisos);
                         output = 0;
+                        flagGeneroInforme = 1;
                     }
                     break;
                 case 2:
@@ -648,27 +695,29 @@ int cliente_publicacion_Informes(Publicacion *puArray, int lenPublicacion, Clien
                         printf("\nNO EXISTEN AVISOS PAUSADOS, TODOS ESTAN ACTIVOS\n");
                         output = 0;
                     }
-
+                    flagGeneroInforme = 1;
                     break;
                 case 3:
                     if(!(rubro_GenerarRubros(ruArray, lenRubro, puArray))
                             && !(rubro_CalcularRubroConMasAvisos(ruArray, lenRubro, puArray, lenPublicacion, &bufferRubroConMasAvisos)))
                     {
-//                        for(int x = 0; x < lenRubro; x++)
-//                        {
-//                            printf("rubro: %d\n", ruArray[x].rubro);
-//                        }
-                        if(bufferRubroConMasAvisos == 0)
+                        if(bufferRubroConMasAvisos == -1)
                         {
                             printf("\nNO EXISTE RUBRO CON MAS AVISOS\n");
                         }
                         else
                         {
-                            printf("\nEL RUBRO CON MAS AVISOS ES: %d", bufferRubroConMasAvisos);
+                            printf("\nEL RUBRO CON MAS AVISOS ES: %d\n", bufferRubroConMasAvisos);
                         }
+                        output = 0;
                     }
+                    flagGeneroInforme = 1;
                     break;
                 case 4:
+                    if(flagGeneroInforme == 0)
+                    {
+                        output = 1;
+                    }
                     printf("VOLVIENDO AL MENU PRINCIPAL\n");
                     break;
                 default:

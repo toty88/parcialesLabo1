@@ -16,7 +16,6 @@ int main(void)
     publicacion_Init(puArray, SIZE_ARRAY_PUBLICACION);
     publicacion_HardCodeo(puArray);
     Rubro ruArray[SIZE_ARRAY_RUBROS];
-    //rubro_Init(ruArray, SIZE_ARRAY_RUBROS);
 
     int flagAltaCliente = 1;
     int flagAltaPublicacion = 1;
@@ -86,10 +85,15 @@ int main(void)
             case 4: // ALTA PUBLICACION
                 if(flagAltaCliente == 1)
                 {
-                    if(!(cliente_publicacion_CreatePublicidad(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES)))
+                    bufferResultado = cliente_publicacion_CreatePublicidad(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES);
+                    if(bufferResultado == 0)
                     {
                         printf("\n >>>>> AVISO CREADO CON EXITO <<<<<\n");
                         flagAltaPublicacion = 1;
+                    }
+                    else if(bufferResultado == 1)
+                    {
+                        printf("\n >>>>> NO SE CREO NINGUN AVISO <<<<<\n");
                     }
                     else
                     {
@@ -146,23 +150,42 @@ int main(void)
                 }
                 break;
             case 7: // IMPRIMIR CLIENTES CON PUBLICACIONES ACTIVAS
-                if(!(cliente_publicacion_PrintPublicacionesActivasClientes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES)))
+                if(flagAltaCliente == 1 && flagAltaPublicacion == 1)
                 {
-                    printf("\n >>>>> PUBLICACIONES ACTIVAS IMPRESAS CON EXITO <<<<<\n");
+                    if(!(cliente_publicacion_PrintPublicacionesActivasClientes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES)))
+                    {
+                        printf("\n >>>>> PUBLICACIONES ACTIVAS IMPRESAS CON EXITO <<<<<\n");
+                    }
+                    else
+                    {
+                        printf("\n >>>>> ERROR AL QUERER IMPRIMIR PUBLICACIONES ACTIVAS <<<<<\n");
+                    }
                 }
                 else
                 {
-                    printf("\n >>>>> ERROR AL QUERER IMPRIMIR PUBLICACIONES ACTIVAS <<<<<\n");
+                    printf("ES NECESARIO UN ALTA DE CLIENTE Y PUBLICACION. INTENTE OPCION 1 Y OPCION 4\n");
                 }
                 break;
             case 8: // INFORMES
-                if(!(cliente_publicacion_Informes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS)))
+                if(flagAltaCliente == 1 && flagAltaPublicacion == 1)
                 {
-                    printf("\n >>>>> INFORME GENERADO CON EXITO <<<<<\n");
+                    bufferResultado = cliente_publicacion_Informes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS);
+                    if(bufferResultado == 0)
+                    {
+                        printf("\n >>>>> INFORME GENERADO CON EXITO <<<<<\n");
+                    }
+                    else if(bufferResultado == 1)
+                    {
+                        printf("\n >>>>> NO SE GENERA NINGUN INFORME <<<<<\n");
+                    }
+                    else
+                    {
+                        printf("\n >>>>> ERROR AL QUERER GENERAR INFORME <<<<<\n");
+                    }
                 }
                 else
                 {
-                    printf("\n >>>>> ERROR AL QUERER GENERAR INFORME <<<<<\n");
+                    printf("ES NECESARIO UN ALTA DE CLIENTE Y PUBLICACION. INTENTE OPCION 1 Y OPCION 4\n");
                 }
                 break;
             case 9: // SALIR
