@@ -134,7 +134,7 @@ int rubro_CalcularRubroConMasAvisos(Rubro *ruArray, int lenRubro, Publicacion *p
 }
 
 /**
- * @fn int cliente_publicacion_CalcularClientesConMasAvisos(Publicacion*, int, Cliente*, int, int*, int*)
+ * @fn int informes_CalcularClientesConMasAvisos(Publicacion*, int, Cliente*, int, int*, int*)
  * @brief Funcion que calcula de entre todos los Clientes, aquel que tiene mas avisos
  *
  * @param puArray: El puntero al array de tipo Publicacion
@@ -183,7 +183,7 @@ int informes_CalcularClientesConMasAvisos(Publicacion *puArray, int lenPublicaci
 }
 
 /**
- * @fn int cliente_publicacion_CalcularCantidadDeAvisosPausados(Publicacion*, int, int*)
+ * @fn int informes_CalcularCantidadDeAvisosPausados(Publicacion*, int, int*)
  * @brief Funcion que calcula la cantidad de avisos pausados
  *
  * @param puArray: El puntero al array de tipo Publicacion
@@ -209,7 +209,7 @@ int informes_CalcularCantidadDeAvisosPausados(Publicacion *puArray, int lenPubli
 }
 
 /**
- * @fn int cliente_publicacion_Informes(Publicacion*, int, Cliente*, int)
+ * @fn int informes_GenerarInformes(Publicacion*, int, Cliente*, int)
  * @brief Funcion que muestra un menu de Informes
  *
  * @param puArray: El puntero al array de tipo Publicacion
