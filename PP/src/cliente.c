@@ -186,13 +186,13 @@ int cliente_Create(Cliente *pArray, int len) {
                 && !(utn_getString("(b). Ingrese apellido: ", "Error, reintentos", bufferAux.lastName, SIZE_STR, 3))
                 && !(cliente_GenerateId(&bufferAux.id)))
         {
-		do
-		{
-                	if(!(utn_getStringWithNumbers("(c). Ingrese CUIT de 11 digitos: ", "Error,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
-			{
-				bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
-			}
-		}while(bufferResultado == 0);
+            do
+            {
+                if(!(utn_getStringWithOnlyNumbers("(c). Ingrese CUIT de 11 digitos: ", "Error - solo numeros,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
+                {
+                    bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
+                }
+            }while(bufferResultado == 0);
 
             pArray[bufferIndex] = bufferAux;
             pArray[bufferIndex].isEmpty = FALSE;
@@ -281,13 +281,13 @@ int cliente_Modify(Cliente *pArray, int len) {
                 case 5:
                     if (flag == 1)
                     {
-			do
-				{
-        		        	if(!(utn_getStringWithNumbers("(c). Ingrese nuevo CUIT de 11 digitos: ", "Error,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
-					{
-						bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
-					}
-				}while(bufferResultado == 0);
+                        do
+                        {
+                            if(!(utn_getStringWithOnlyNumbers("(c). Ingrese nuevo CUIT de 11 digitos: ", "Error - solo numeros,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
+                            {
+                                bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
+                            }
+                        }while(bufferResultado == 0);
                             strncpy(pArray[bufferIndex].cuit,bufferAux.cuit, SIZE_STR);
                             output = 0;
                     }

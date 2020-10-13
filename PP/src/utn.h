@@ -15,9 +15,11 @@ int utn_getIntConMinMax(char*, char*, int*, int, int, int);
 int utn_isIntNumber(char*);
 int utn_isFloatNumber(char *);
 int utn_isAlphabetic(char*);
+int utn_isNumeric(char*);
 int utn_isAlphanumeric(char*);
 int utn_getString(char*, char*, char*, int, int);
 int utn_getStringWithNumbers(char*, char*, char*, int, int);
+int utn_getStringWithOnlyNumbers(char*, char*, char*, int, int);
 int utn_getStringWithNumbersAndSymbols(char*, char*, char*, int, int);
 int myGets(char*, int);
 

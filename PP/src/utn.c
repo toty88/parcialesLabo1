@@ -88,7 +88,7 @@ int utn_getString(char *msg, char *msgError, char *pCadena, int limite, int rein
  * @brief Funcion que chequea si una cadena es alfanumerica
  *
  * @param pCadena: El puntero a char que se recorre para corroborar si es alfabetico
- * @return (-1) Error (0) todo OK
+ * @return (0) Error (1) todo OK
  */
 int utn_isAlphanumeric(char *pCadena){
     int output = 1;
@@ -108,6 +108,26 @@ int utn_isAlphanumeric(char *pCadena){
 }
 
 /**
+ * @fn int utn_isNumeric(char*)
+ * @brief Funcion que chequea si una cadena es numerica
+ *
+ * @param pCadena: El puntero a char que se recorre para corroborar si es alfabetico
+ * @return (0) Error (1) todo OK
+ */
+int utn_isNumeric(char *pCadena){
+    int output = 1;
+    if(pCadena !=NULL){
+        for(int x = 0; pCadena[x] !='\0'; x++){
+            if(pCadena[x] < '0' || pCadena[x] > '9')
+            {
+                output = 0;
+                break;
+            }
+        }
+    }
+    return output;
+}
+/**
  * @fn int utn_getString(char*, char*, char*, int, int)
  * @brief Funcion que solicita por stdin el ingreso de una cadena que permite letras y numeros
  *
@@ -124,6 +144,38 @@ int utn_getStringWithNumbers(char *msg, char *msgError, char *pCadena, int limit
         do {
             printf("%s", msg);
             if (!(myGets(pCadena, limite)) && utn_isAlphanumeric(pCadena)) {
+                for(int x = 0; x<limite; x++){
+                    pCadena[x] = toupper(pCadena[x]);
+                }
+                output = 0;
+            } else {
+                reintentos--;
+                if (reintentos > 0) {
+                    printf("%s: %d\n", msgError, reintentos);
+                }
+            }
+        } while (output != 0 && reintentos > 0);
+    }
+    return output;
+}
+
+/**
+ * @fn int utn_getStringWithOnlyNumbers(char*, char*, char*, int, int)
+ * @brief Funcion que solicita por stdin el ingreso de una cadena que permite solo numeros
+ *
+ * @param msg: El puntero a char que solicita el ingreso de una cadena
+ * @param msgError: El puntero a char que informa de un error
+ * @param pCadena: El puntero a char donde se guardar la cadena
+ * @param limite: El limite de la cadena
+ * @param reintentos: La cantidad de veces que el usuario puede reintentar en caso de error
+ * @return (-1) Error (0) todo OK
+ */
+int utn_getStringWithOnlyNumbers(char *msg, char *msgError, char *pCadena, int limite, int reintentos) {
+    int output = -1;
+    if (msg != NULL && msgError != NULL && pCadena != NULL && limite > 0 && reintentos > 0) {
+        do {
+            printf("%s", msg);
+            if (!(myGets(pCadena, limite)) && utn_isNumeric(pCadena)) {
                 for(int x = 0; x<limite; x++){
                     pCadena[x] = toupper(pCadena[x]);
                 }
