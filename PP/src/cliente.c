@@ -18,7 +18,7 @@ int cliente_HardCodeo(Cliente *pArray) {
     int bufferID[5] =                   {   100,                  101,            102,            103,            104           };
     char bufferName[5][SIZE_STR] =      {   "EDGARDO HORACIO",    "ANGUS",        "BRIAN",        "RICARDO",      "BRUCE"       };
     char bufferLastName[5][SIZE_STR] =  {   "LORENZO",            "DICIKINSON",   "JHONSON",      "IORIO",        "DICIKINSON"  };
-    char bufferCuit[5][SIZE_STR] =      {   "2336330972",          "2456787196",   "3689210751",   "2903221487",   "4107389873" };
+    char bufferCuit[5][SIZE_STR] =      {   "20336330972",          "20456787196",   "32689210751",   "29903221487",   "41107389873" };
 
     if (pArray != NULL) {
         for (int x = 0; x < 5; x++) {
@@ -217,6 +217,7 @@ int cliente_Modify(Cliente *pArray, int len) {
     int flag;
     int bufferID;
     int bufferIndex;
+    int bufferResultado;
     Cliente bufferAux;
 
     if (pArray != NULL && len > 0) {
@@ -280,11 +281,15 @@ int cliente_Modify(Cliente *pArray, int len) {
                 case 5:
                     if (flag == 1)
                     {
-                        if (!(utn_getString("(b). Ingrese nuevo cuit: ","Error, reintentos", bufferAux.cuit,SIZE_STR, 3)))
-                        {
+			do
+				{
+        		        	if(!(utn_getStringWithNumbers("(c). Ingrese nuevo CUIT de 11 digitos: ", "Error,  reintentos", bufferAux.cuit, SIZE_STR, 3)))
+					{
+						bufferResultado = cliente_IsCuitValid(bufferAux.cuit);
+					}
+				}while(bufferResultado == 0);
                             strncpy(pArray[bufferIndex].cuit,bufferAux.cuit, SIZE_STR);
                             output = 0;
-                        }
                     }
                     else
                     {
