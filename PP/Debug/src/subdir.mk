@@ -6,6 +6,7 @@
 C_SRCS += \
 ../src/cliente.c \
 ../src/cliente_publicacion.c \
+../src/informes.c \
 ../src/main.c \
 ../src/menu.c \
 ../src/publicacion.c \
@@ -14,6 +15,7 @@ C_SRCS += \
 OBJS += \
 ./src/cliente.o \
 ./src/cliente_publicacion.o \
+./src/informes.o \
 ./src/main.o \
 ./src/menu.o \
 ./src/publicacion.o \
@@ -22,6 +24,7 @@ OBJS += \
 C_DEPS += \
 ./src/cliente.d \
 ./src/cliente_publicacion.d \
+./src/informes.d \
 ./src/main.d \
 ./src/menu.d \
 ./src/publicacion.d \

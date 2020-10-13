@@ -5,6 +5,7 @@
 #include"cliente.h"
 #include"publicacion.h"
 #include"cliente_publicacion.h"
+#include"informes.h"
 #include"utn.h"
 
 int main(void)
@@ -169,7 +170,7 @@ int main(void)
             case 8: // INFORMES
                 if(flagAltaCliente == 1 && flagAltaPublicacion == 1)
                 {
-                    bufferResultado = cliente_publicacion_Informes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS);
+                    bufferResultado = informes_Informes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES, ruArray, SIZE_ARRAY_RUBROS);
                     if(bufferResultado == 0)
                     {
                         printf("\n >>>>> INFORME GENERADO CON EXITO <<<<<\n");
