@@ -282,11 +282,11 @@ int informes_GenerarInformes(Publicacion *puArray, int lenPublicacion, Cliente *
                     flagGeneroInforme = 1;
                     break;
                 case 4:
-                    bufferResultado = (informes_CalcularClientesConMasAvisos(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
+                    bufferResultado = (cliente_publicacion_PrintClienteConMasAvisosActivos(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
                     if(bufferResultado == 1)
                     {
 
-                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS ACTIVOS\n");
+                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS ACTIVOS O NINGUNO CON AVISOS ACTIVOS\n");
                     }
                     else if(bufferResultado == 0)
                     {
@@ -300,11 +300,11 @@ int informes_GenerarInformes(Publicacion *puArray, int lenPublicacion, Cliente *
                         flagGeneroInforme = 1;
                     break;
                 case 5:
-                    bufferResultado = (informes_CalcularClientesConMasAvisos(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
+                    bufferResultado = (cliente_publicacion_PrintClienteConMasAvisosPusados(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
                     if(bufferResultado == 1)
                     {
 
-                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS PAUSADOS\n");
+                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS PAUSADOS O NINGUN CON AVISOS PAUSADOS\n");
                     }
                     else if(bufferResultado == 0)
                     {
