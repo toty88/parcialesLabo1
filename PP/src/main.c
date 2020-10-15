@@ -86,7 +86,7 @@ int main(void)
             case 4: // ALTA PUBLICACION
                 if(flagAltaCliente == 1)
                 {
-                    bufferResultado = cliente_publicacion_CreatePublicidad(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES);
+                    bufferResultado = cliente_publicacion_AltaPublicidad(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES);
                     if(bufferResultado == 0)
                     {
                         printf("\n >>>>> AVISO CREADO CON EXITO <<<<<\n");
@@ -153,7 +153,7 @@ int main(void)
             case 7: // IMPRIMIR CLIENTES CON PUBLICACIONES ACTIVAS
                 if(flagAltaCliente == 1 && flagAltaPublicacion == 1)
                 {
-                    if(!(cliente_publicacion_PrintPublicacionesActivasClientes(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES)))
+                    if(!(cliente_publicacion_PrintClientesConTotalDeAvisosActivos(puArray, SIZE_ARRAY_PUBLICACION, paArray, SIZE_ARRAY_CLIENTES)))
                     {
                         printf("\n >>>>> PUBLICACIONES ACTIVAS IMPRESAS CON EXITO <<<<<\n");
                     }
@@ -196,6 +196,10 @@ int main(void)
             default:
                 printf("\n >>>>> OPCION INVALIDA, VUELVA A INTENTAR <<<<<\n");
             }
+        }
+        else
+        {
+            printf("\nNO SE HA PODIDO CARGAR EL MENU PRINCIPAL\n");
         }
     } while (bufferOpcionMenuPrincipal != 9);
     return 0;

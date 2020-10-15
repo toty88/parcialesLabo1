@@ -206,6 +206,20 @@ int publicacion_Remove(Publicacion *puArray, int lenPublicacion, int bufferClien
     return output;
 }
 
+int publicacion_IsActive(Publicacion elemento, int bufferIDPublicacion)
+{
+    int output = 0;
+
+    if(elemento.isEmpty == FALSE)
+    {
+        if(elemento.estado == ACTIVA)
+        {
+            output = 1;
+        }
+    }
+    return output;
+}
+
 /**
  * @fn int publicacion_PrintOne(Publicacion)
  * @brief Funcion que muestra por pantalla un elemento de tipo Publicacion

@@ -29,6 +29,7 @@ int publicacion_FindById(Publicacion*, int, int, int*);
 int publicacion_FindByClientId(Publicacion*, int, int, int*);
 int publicacion_Create(Publicacion*, int, int*);
 int publicacion_Remove(Publicacion*, int, int);
+int publicacion_IsActive(Publicacion, int);
 int publicacion_PrintOne(Publicacion);
 int publicacion_printAll(Publicacion*, int);
 

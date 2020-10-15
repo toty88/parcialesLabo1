@@ -124,11 +124,9 @@ int rubro_CalcularRubroConMasAvisos(Rubro *ruArray, int lenRubro, Publicacion *p
                 {
                         *pResultado = -1;
                 }
-
                 bufferContador = 0;
             }
         }
-
     }
     return output;
 }

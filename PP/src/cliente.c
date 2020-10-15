@@ -204,6 +204,33 @@ int cliente_Create(Cliente *pArray, int len) {
 }
 
 /**
+ * @fn int cliente_Remove(Cliente*, int, int)
+ * @brief Funcion que busca cliente por ID y si existe lo da de baja
+ *
+ * @param pArray: El puntero al array de tipo Cliente
+ * @param len: La longitud del array de tipo Cliente
+ * @param id: El id a comparar
+ * @return (-1) Error (0) todo OK
+ */
+int cliente_Remove(Cliente *pArray, int len, int id)
+{
+    int output = -1;
+    if(pArray != NULL && len > 0 && id >0)
+    {
+        for(int x = 0; x < len; x++)
+        {
+            if(pArray[x].isEmpty == FALSE && pArray[x].id == id)
+            {
+                pArray[x].isEmpty = TRUE;
+                output = 0;
+                break;
+            }
+        }
+    }
+    return output;
+}
+
+/**
  * @fn int cliente_Modify(Cliente*, int)
  * @brief Funcion que permite modificar campos de un elemento de tipo Cliente
  *

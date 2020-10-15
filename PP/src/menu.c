@@ -27,7 +27,7 @@ int menu_Principal(int *pResultado) {
                 "(4). PUBLICAR\n"
                 "(5). PAUSAR PUBLICACION\n"
                 "(6). REANUDAR PUBLICACION\n"
-                "(7). IMPRIMIR CLIENTES\n"
+                "(7). LISTAR CLIENTES CON PUBLICACIONES ACTIVAS\n"
                 "(8). INFORMES\n"
                 "(9). SALIR -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3))) {
 
@@ -50,8 +50,9 @@ int menu_Modificar(int *pResultado) {
     int output = -1;
     int opcion;
     if(pResultado != NULL){
-        if(!(utn_getInt("\n######################################################\n"
-                        "################### MENU MODIFICAR ####################\n"
+        if(!(utn_getInt(
+                      "\n######################################################\n"
+                        "################### MENU MODIFICAR ###################\n"
                         "######################################################\n"
                         "(1). LISTAR CLIENTES\n"
                         "(2). INGRESE ID DE CLIENTE\n"
@@ -225,6 +226,19 @@ void printColumn(void){
 
 }
 
+void printColumnSingleCliente(void){
+
+    char sp = ' ';
+
+    printf(
+      "\n##################################################\n"
+        "############ DATOS DEL CLIENTE OWNER #############\n"
+        "##################################################\n");
+    printf("# %1cID%10cNOMBRE%8cAPELLIDO%9cCUIT\n", sp, sp, sp, sp);
+    printf("##################################################\n\n");
+
+}
+
 void printColumnPublicacion(void){
 
     char sp = ' ';
@@ -264,3 +278,15 @@ void printColumnClientYpublicacionesActivas(void){
 
 }
 
+void printColumnClienteYPublicacion(void){
+
+    char sp = ' ';
+
+    printf(
+      "\n#####################################################################################################################################################################\n"
+        "####################################################### DETALLE DE CLIENTES Y DETALLE DE PUBLICACIONES ##############################################################\n"
+        "#####################################################################################################################################################################\n");
+    printf("# %1cID%10cNOMBRE%8cAPELLIDO%9cCUIT %1cID PUBLICACION%10cRUBRO%8cESTADO%59cDESCRIPCION\n", sp, sp, sp, sp, sp, sp, sp, sp);
+    printf("#####################################################################################################################################################################\n\n");
+
+}
