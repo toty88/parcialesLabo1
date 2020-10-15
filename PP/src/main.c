@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdio_ext.h>
 #include<stdlib.h>
+#include"utn.h"
 #include"menu.h"
 #include"cliente.h"
 #include"publicacion.h"
 #include"cliente_publicacion.h"
 #include"informes.h"
-#include"utn.h"
 
 int main(void)
 {
