@@ -282,6 +282,42 @@ int informes_GenerarInformes(Publicacion *puArray, int lenPublicacion, Cliente *
                     flagGeneroInforme = 1;
                     break;
                 case 4:
+                    bufferResultado = (informes_CalcularClientesConMasAvisos(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
+                    if(bufferResultado == 1)
+                    {
+
+                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS ACTIVOS\n");
+                    }
+                    else if(bufferResultado == 0)
+                    {
+                        printf("\nEL CLIENTE CON MAS AVISOS ACTIVOS ES %s %s CON UN TOTAL DE %d\n", paArray[bufferClienteConMasAvisosIndex].name, paArray[bufferClienteConMasAvisosIndex].lastName, bufferTotalAvisos);
+                    }
+                    else
+                    {
+                        printf("\nERROR AL LISTAR CLIENTE CON MAS AVISOS\n");
+                    }
+                        output = 0;
+                        flagGeneroInforme = 1;
+                    break;
+                case 5:
+                    bufferResultado = (informes_CalcularClientesConMasAvisos(puArray, lenPublicacion, paArray, lenCliente, &bufferClienteConMasAvisosIndex, &bufferTotalAvisos));
+                    if(bufferResultado == 1)
+                    {
+
+                            printf("\nEXISTEN VARIOS CLIENTES CON LA MISMA CANTIDAD DE AVISOS PAUSADOS\n");
+                    }
+                    else if(bufferResultado == 0)
+                    {
+                        printf("\nEL CLIENTE CON MAS AVISOS PAUSADOS ES %s %s CON UN TOTAL DE %d\n", paArray[bufferClienteConMasAvisosIndex].name, paArray[bufferClienteConMasAvisosIndex].lastName, bufferTotalAvisos);
+                    }
+                    else
+                    {
+                        printf("\nERROR AL LISTAR CLIENTE CON MAS AVISOS\n");
+                    }
+                        output = 0;
+                        flagGeneroInforme = 1;
+                    break;
+                case 6:
                     if(flagGeneroInforme == 0)
                     {
                         output = 1;
@@ -292,9 +328,99 @@ int informes_GenerarInformes(Publicacion *puArray, int lenPublicacion, Cliente *
                     printf("OPCION INVALIDA\n");
                 }
             }
-        } while (bufferOpcionInformes != 4);
+        } while (bufferOpcionInformes != 6);
     }
     return output;
 }
+
+/**
+ * @fn int cliente_publicacion_PrintPublicacionesActivasClientes(Publicacion*, int, Cliente*, int)
+ * @brief Funcion que imprime solo las publicaciones ACTIVAS de todos los Clientes
+ *
+ * @param puArray: El puntero al array de tipo Publicacion
+ * @param lenPublicacion: La longitud del array de tipo Publicacion
+ * @param paArray: El puntero al array de tipo Cliente
+ * @param lenCliente: La longitud del array de tipo Cliente
+ * @return (-1) Error (0) todo OK
+ */
+int cliente_publicacion_PrintClienteConMasAvisosActivos(Publicacion *puArray, int lenPublicacion, Cliente *paArray, int lenCliente, int *bufferIndex, int* contadorAvisos)
+{
+    int output = -1;
+    int bufferContador = 0;
+    int bufferMax;
+
+    if(puArray != NULL && paArray != NULL && bufferIndex!= NULL && contadorAvisos != NULL && lenPublicacion > 0 && lenCliente > 0)
+    {
+        for(int x = 0; x < lenCliente; x++)
+        {
+            if(paArray[x].isEmpty == FALSE)
+            {
+                for(int j = 0; j < lenPublicacion; j++)
+                {
+                    if(puArray[j].isEmpty == FALSE && (paArray[x].id == puArray[j].idCliente) && puArray[j].estado == ACTIVA)
+                    {
+                        bufferContador++;
+                    }
+                }
+                if(bufferMax < bufferContador || x == 0)
+                {
+                    bufferMax = bufferContador;
+                    *bufferIndex = x;
+                    *contadorAvisos = bufferMax;
+                    output = 0;
+                }
+                else if(bufferMax == bufferContador)
+                {
+                    output = 1;
+                }
+                bufferContador = 0;
+            }
+        }
+    }
+    return output;
+}
+
+
+int cliente_publicacion_PrintClienteConMasAvisosPusados(Publicacion *puArray, int lenPublicacion, Cliente *paArray, int lenCliente, int *bufferIndex, int* contadorAvisos)
+{
+    int output = -1;
+    int bufferContador = 0;
+    int bufferMax;
+
+    if(puArray != NULL && paArray != NULL && bufferIndex!= NULL && contadorAvisos != NULL && lenPublicacion > 0 && lenCliente > 0)
+    {
+        for(int x = 0; x < lenCliente; x++)
+        {
+            if(paArray[x].isEmpty == FALSE)
+            {
+                for(int j = 0; j < lenPublicacion; j++)
+                {
+                    if(puArray[j].isEmpty == FALSE && (paArray[x].id == puArray[j].idCliente) && puArray[j].estado == NO_ACTIVA)
+                    {
+                        bufferContador++;
+                    }
+                }
+                if(bufferMax < bufferContador || x == 0)
+                {
+                    bufferMax = bufferContador;
+                    *bufferIndex = x;
+                    *contadorAvisos = bufferMax;
+                    output = 0;
+                }
+                else if(bufferMax == bufferContador)
+                {
+                    output = 1;
+                }
+                bufferContador = 0;
+            }
+        }
+    }
+    return output;
+}
+
+
+
+
+
 
 

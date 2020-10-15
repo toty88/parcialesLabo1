@@ -8,6 +8,7 @@
 #include"cliente_publicacion.h"
 #include"informes.h"
 
+
 int main(void)
 {
     Cliente paArray[SIZE_ARRAY_CLIENTES];

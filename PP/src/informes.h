@@ -24,5 +24,7 @@ int rubro_CalcularRubroConMasAvisos(Rubro* ,int, Publicacion*, int, int*);
 int informes_CalcularClientesConMasAvisos(Publicacion*, int, Cliente*, int, int*, int*);
 int informes_CalcularCantidadDeAvisosPausados(Publicacion*, int, int*);
 int informes_GenerarInformes(Publicacion*, int, Cliente*, int, Rubro*, int);
+int cliente_publicacion_PrintClienteConMasAvisosActivos(Publicacion*, int, Cliente*, int, int*, int*);
+int cliente_publicacion_PrintClienteConMasAvisosPusados(Publicacion*, int, Cliente*, int, int*, int*);
 
 #endif /* INFORMES_H_ */

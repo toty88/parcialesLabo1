@@ -115,7 +115,9 @@ int menu_Informes(int *pResultado) {
                 "(1). LISTAR CLIENTE CON MAS AVISOS\n"
                 "(2). LISTAR CANTIDAD DE AVISOS PAUSADOS\n"
                 "(3). LISTAR RUBRO CON MAS AVISOS\n"
-                "(4). SALIR -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3))) {
+                "(4). CLIENTE CON MAS AVISOS ACTIVOS\n"
+                "(5). CLIENTE CON MAS AVISOS PAUSADOS\n"
+                "(6). SALIR -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3))) {
 
             *pResultado = opcion;
             output = 0;
