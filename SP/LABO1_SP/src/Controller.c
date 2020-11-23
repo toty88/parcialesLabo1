@@ -1,6 +1,8 @@
 #include"Controller.h"
 
-static int cliente_generateId(LinkedList* pArrayListClientes, int*);
+/* AUXILIARES - CARGA Y VOLCADO DE ARCHIVOS */
+
+static int cliente_generateId(LinkedList*, int*);
 
 static int cliente_generateId(LinkedList* pArrayListClientes, int *id) {
 
@@ -26,6 +28,124 @@ static int venta_generateId(LinkedList* pArrayListVentas, int *id) {
         bufferIdVentas++;
         *id = bufferIdVentas;
         output = 0;
+    }
+    return output;
+}
+
+static int controller_clienteConMasAfichesComprados(LinkedList*, LinkedList*);
+
+static int controller_clienteConMenosAfichesComprados(LinkedList*, LinkedList*);
+
+static int controller_ventaConMasAfichesVendidos(LinkedList*, LinkedList*);
+
+static int controller_ventaConMasAfichesVendidos(LinkedList* pArrayListClientesCobrados, LinkedList* pArrayListVentas)
+{
+    int output = -1;
+    FILE* out;
+    Venta* auxMaxAfichesVendidos;
+    int totalAfichesVendidos;
+    int ventasConIgualCantidad = 0;
+
+    if(pArrayListClientesCobrados != NULL)
+    {
+        out = fopen("cobradas.txt", "r");
+        if(out != NULL)
+        {
+            auxMaxAfichesVendidos = (Venta*)ll_filterByInt(pArrayListVentas, pArrayListClientesCobrados, cliente_venta_VentaConMasAfichesVendidos, &totalAfichesVendidos, &ventasConIgualCantidad);
+            if(auxMaxAfichesVendidos != NULL)
+            {
+                if(ventasConIgualCantidad == 0)
+                {
+                    printf("\n >>>>> VENTA CON MAS AFICHES VENDIDOS: %d - %d - afiches: %d <<<<<\n"
+                            ,venta_getId_venta(auxMaxAfichesVendidos)
+                            ,venta_getId_cliente(auxMaxAfichesVendidos)
+                            ,totalAfichesVendidos);
+                }
+                else
+                {
+                    printf("\n >>>>> EXISTEN VENTAS CON LA MISMA CANTIDAD MAXIMA DE AFICHES VENDIDOS: %d <<<<<\n", totalAfichesVendidos);
+                }
+
+                output = 0;
+            }
+            fclose(out);
+        }
+    }
+    return output;
+}
+
+static int controller_clienteConMasAfichesComprados(LinkedList* pArrayListClientesCobrados, LinkedList* pArrayListVentas)
+{
+    int output = -1;
+    void* aux;
+    FILE* out;
+    void* auxMaxAfiches;
+    int maxAfiches;
+    int totalAfiches = 0;
+    if(pArrayListClientesCobrados != NULL)
+    {
+        out = fopen("cobradas.txt", "r");
+        if(out != NULL)
+        {
+            for(int x = 0; x < ll_len(pArrayListClientesCobrados); x++)
+            {
+                aux = ll_get(pArrayListClientesCobrados, x);
+                if(!(ll_reduceIntMinMax(pArrayListVentas, aux, cliente_venta_TotalAfichesPorCliente, &totalAfiches)))
+                {
+                    if(maxAfiches < totalAfiches || x == 0)
+                    {
+                        maxAfiches = totalAfiches;
+                        auxMaxAfiches = aux;
+                        output = 0;
+                    }
+                }
+            }
+            printf("\n >>>>> CLIENTE CON (+) AFICHES COMPRADOS: ID: %d - NOMBRE: %s - APELLIDO: %s - CUIT: %s - CANT AFICHES: %d <<<<<\n"
+                    ,cliente_getId(auxMaxAfiches)
+                    ,cliente_getNombre(auxMaxAfiches)
+                    ,cliente_getApellido(auxMaxAfiches)
+                    ,cliente_getCuit(auxMaxAfiches)
+                    ,maxAfiches);
+            fclose(out);
+        }
+    }
+    return output;
+}
+
+static int controller_clienteConMenosAfichesComprados(LinkedList* pArrayListClientesCobrados, LinkedList* pArrayListVentas)
+{
+    int output = -1;
+    void* aux;
+    FILE* out;
+    void* auxMaxAfiches;
+    int minAfiches;
+    int totalAfiches = 0;
+    if(pArrayListClientesCobrados != NULL)
+    {
+        out = fopen("cobradas.txt", "r");
+        if(out != NULL)
+        {
+            for(int x = 0; x < ll_len(pArrayListClientesCobrados); x++)
+            {
+                aux = ll_get(pArrayListClientesCobrados, x);
+                if(!(ll_reduceIntMinMax(pArrayListVentas, aux, cliente_venta_TotalAfichesPorCliente, &totalAfiches)))
+                {
+                    if(minAfiches > totalAfiches || x == 0)
+                    {
+                        minAfiches = totalAfiches;
+                        auxMaxAfiches = aux;
+                        output = 0;
+                    }
+                }
+            }
+            printf("\n >>>>> CLIENTE CON (-) AFICHES COMPRADOS: ID: %d - NOMBRE: %s - APELLIDO: %s - CUIT: %s - CANT AFICHES: %d <<<<<\n"
+                    ,cliente_getId(auxMaxAfiches)
+                    ,cliente_getNombre(auxMaxAfiches)
+                    ,cliente_getApellido(auxMaxAfiches)
+                    ,cliente_getCuit(auxMaxAfiches)
+                    ,minAfiches);
+            fclose(out);
+        }
     }
     return output;
 }
@@ -66,7 +186,6 @@ int controller_saveClientesAsText(char* path , LinkedList* pArrayListClientes)
     return output;
 }
 
-
 int controller_loadVentasFromText(char* path, LinkedList* pArrayListVentas)
 {
     FILE* in;
@@ -103,6 +222,10 @@ int controller_saveVentasAsText(char* path , LinkedList* pArrayListVentas)
     return output;
 }
 
+/* ####################################### */
+
+/* LISTAR - ADD - VENDER - MOD - COBRAR - INFORMES */
+
 int controller_ListClientes(LinkedList* pArrayListClientes)
 {
     int output = -1;
@@ -129,24 +252,6 @@ int controller_ListVentas(LinkedList* pArrayListVentas)
     return output;
 }
 
-int controller_isClienteCuitValid(char* cuit)
-{
-    int output = 0;
-    int contador = 0;
-    if(cuit != NULL && utn_isNumeric(cuit))
-    {
-        for(int x = 0; cuit[x] != '\0'; x++)
-        {
-            contador++;
-        }
-        if(contador == 11)
-        {
-            output = 1;
-        }
-    }
-    return output;
-}
-
 int controller_addCliente(LinkedList* pArrayListClientes)
 {
     int output = -1;
@@ -158,7 +263,7 @@ int controller_addCliente(LinkedList* pArrayListClientes)
     if(pArrayListClientes != NULL)
     {
         if(!(utn_getStringWithOnlyNumbers("\n(A). Ingrese CUIT [11 numeros sin guiones]: ", "Error, solo numeros. Reintentos", bufferCuit, SIZE_STR, 2))
-                && controller_isClienteCuitValid(bufferCuit))
+                && cliente_isValidCuitTXT(bufferCuit))
         {
             if(!(ll_mapStr(pArrayListClientes, bufferCuit, cliente_DoesClientExist)))
             {
@@ -209,7 +314,6 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
                 if(!(ll_map(pArrayListClientes, cliente_print)))
                 {
                     output = 1;
-
                 }
                 break;
             case 2:
@@ -217,6 +321,7 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
                 if(!(utn_getInt("\n(A). Ingrese ID Cliente: ", "Error, Reintentos", &bufferID, 2))
                         && !(ll_findByInt(pArrayListClientes, cliente_DoesIdExist, bufferID)))
                 {
+                    printf("\n >>>>> CLIENTE ENCONTRADO CON EXITO (CONTINUE OPCION 3) <<<<<\n");
                     flagId = 1;
                 }
                 else
@@ -228,7 +333,8 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
                 if(flagId == 1)
                 {
                     if(!(utn_getInt("(B). Ingrese Cantidad de Afiches: ", "Error, Reintentos", &bufferCantAfiches, 2))
-                            && !(utn_getString("(C). Ingrese Nombre del Archivo con la imagen: ", "Error, Reintentos", bufferNombreArchivo, SIZE_FILE_NAME, 2))
+                            && !(utn_getString("(C). Ingrese Nombre del Archivo [solo extencion .tiff]: ", "Error, Reintentos", bufferNombreArchivo, SIZE_FILE_NAME, 2))
+                            && venta_isValidNombre_archivo(bufferNombreArchivo)
                             && !(utn_getIntConMinMax("(D). Seleccione Zona\n(0). CABA\n(1). ZONA SUR\n(2). ZONA OESTE: ----> "
                                     , "Error, Reintentos", &bufferZona, 0, 2, 2))
                                     && !(venta_generateId(pArrayListVentas, &bufferVentaID)))
@@ -242,10 +348,14 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
                             output = 0;
                         }
                     }
+                    else
+                    {
+                        printf("\n >>>>> ATENCION! REVISE NOMBRE DE ARCHIVO Y/O ZONA ELEGIDA <<<<<\n");
+                    }
                 }
                 else
                 {
-                    printf("\n >>>>> ATENCION! INGRESAR ID CLIENTE PRIMERO (OPC 2) <<<<<\n");
+                    printf("\n >>>>> ATENCION! INGRESAR ID CLIENTE PRIMERO (OPCION 2) <<<<<\n");
                 }
                 break;
             case 4:
@@ -450,9 +560,10 @@ int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayC
 {
     int output = -1;
     int informesMenuOption;
-    void* aux;
     int ventasCobradas = 0;
     int ventasAcobrar = 0;
+    int flagListaCobrados = 0;
+    void* aux;
     FILE* out;
     LinkedList* pArrayListClientesCobrados;
     LinkedList* pArrayListClientesACobrar;
@@ -472,9 +583,10 @@ int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayC
                         for(int x = 0; x < ll_len(pArrayListClientesCobrados); x++)
                         {
                             aux = ll_get(pArrayListClientesCobrados, x);
-                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasCobradas))
+                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasCobradas, COBRADO))
                                     && !(parser_ClientesConTotalVentasToText(out, aux, ventasCobradas)))
                             {
+                                flagListaCobrados = 1;
                                 output = 0;
                             }
                         }
@@ -493,7 +605,7 @@ int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayC
                         for(int x = 0; x < ll_len(pArrayListClientesACobrar); x++)
                         {
                             aux = ll_get(pArrayListClientesACobrar, x);
-                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasAcobrar))
+                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasAcobrar, A_COBRAR))
                                     && !(parser_ClientesConTotalVentasToText(out, aux, ventasAcobrar)))
                             {
                                 output = 0;
@@ -505,7 +617,19 @@ int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayC
                 }
                 break;
             case 3:
-
+                if(flagListaCobrados == 1)
+                {
+                    if(!(controller_clienteConMasAfichesComprados(pArrayListClientesCobrados,pArrayListVentas))
+                            && !(controller_clienteConMenosAfichesComprados(pArrayListClientesCobrados,pArrayListVentas))
+                            && !(controller_ventaConMasAfichesVendidos(pArrayListClientesCobrados,pArrayListVentas)))
+                    {
+                        output = 0;
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! DEBE GENERAR INFORME DE COBROS (OPCION 1) <<<<<\n");
+                }
                 break;
             case 4:
                     printf("\n >>>>> VOLVIENDO AL MENU PRINCIPAL <<<<<\n");
@@ -520,10 +644,7 @@ int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayC
 }
 
 
-
-
-
-
+/* ############################################## */
 
 
 /* ################### POSIBLES FUNCIONES A FUTURO ############################ */

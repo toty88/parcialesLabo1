@@ -32,7 +32,7 @@ int cliente_isValidId(int id);
 int cliente_isValidIdTXT(char* id);
 int cliente_isValidNombre(char* nombre);
 int cliente_isValidApellido(char* apellido);
-int cliente_isValidCuit(char* cuit);
+int cliente_isValidCuitTXT(char* cuit);
 
 int cliente_print(void*);
 int cliente_findMaxId(void* pElement, int indice, int *id);

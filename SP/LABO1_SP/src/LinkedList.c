@@ -675,8 +675,40 @@ int ll_filter(LinkedList* this, pFunc pCriterio)
     return output;
 }
 
+void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, int* pResultado, int* pResultado2)
+{
+    void* aux1;
+    void* aux2;
+    int max;
+    void* aux3;
+    if(this != NULL && this2 != NULL && pCriterio != NULL && pResultado != NULL)
+    {
+        for(int x = 0; x < ll_len(this); x++)
+        {
+            aux1 = ll_get(this, x);
+            for(int j = 0; j < ll_len(this2); j++)
+            {
+                aux2 = ll_get(this2, j);
+                if(pCriterio(aux2, aux1, &max))
+                {
+                    if(*pResultado < max || x == 0)
+                    {
+                        *pResultado = max;
+                        aux3 = aux1;
+                    }
+                }
+                if(max == *pResultado)
+                {
+                    *pResultado2 = 1;
+                }
+            }
+        }
+    }
+    return aux3;
+}
+
 LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, pDosByInt pCriterio, int number)
-{//agregar mas funciones criterio y hacer un switch
+{
     void* aux1;
     void* aux2;
     LinkedList* this3;
@@ -703,7 +735,7 @@ LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, pDosByI
     return this3;
 }
 
-int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResultado)
+int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResultado, int number)
 {
     int output = -1;
     void* aux;
@@ -715,9 +747,35 @@ int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResult
             aux = ll_get(this, x);
             if(aux != NULL)
             {
-                 if(pCriterio(aux2,aux, 1))
+                 if(pCriterio(aux2,aux, number))
                  {
                      counter++;
+                     output = 0;
+                 }
+            }
+        }
+        if(counter > 0)
+        {
+            *pResultado = counter;
+        }
+    }
+    return output;
+}
+
+int ll_reduceIntMinMax(LinkedList* this, void* aux2, pReduceInt pCriterio, int* pResultado)
+{
+    int output = -1;
+    void* aux;
+    int counter = 0;
+    if(this != NULL && pCriterio != NULL)
+    {
+        for(int x = 0; x < ll_len(this); x++)
+        {
+            aux = ll_get(this, x);
+            if(aux != NULL)
+            {
+                 if(!(pCriterio(aux2,aux, &counter)))
+                 {
                      output = 0;
                  }
             }

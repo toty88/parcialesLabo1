@@ -45,7 +45,6 @@ int venta_setNombre_archivo(Venta* this, char* nombre_archivo);
 int venta_setZona(Venta* this, int zona);
 int venta_setZonaTXT(Venta* this, char* zona);
 
-
 /*      GETTERS     */
 int venta_getEstado(Venta* this);
 int venta_getId_cliente(Venta* this);
@@ -55,20 +54,27 @@ char* venta_getNombre_archivo(Venta* this);
 int venta_getZona(Venta* this);
 
 /*      IS_VALID     */
+
 int venta_isValidId_cliente(int id_cliente);
 int venta_isValidId_clienteTXT(char* id_cliente);
-int venta_isValidEstadoTXT(char* zona);
+
+int venta_isValidEstado(int estado);
+int venta_isValidEstadoTXT(char* estado);
+
 int venta_isValidId_venta(int id_venta);
 int venta_isValidId_ventaTXT(char* id_venta);
+
 int venta_isValidCantidad_afiches(int cantidad_afiches);
 int venta_isValidCantidad_afichesTXT(char* cantidad_afiches);
+
 int venta_isValidNombre_archivo(char* nombre_archivo);
+
 int venta_isValidZona(int zona);
 int venta_isValidZonaTXT(char* zona);
-int venta_isValidEstado(int estado);
 
 
 /*      FUNCIONES EXTRAS     */
+
 int venta_print(void*);
 int venta_printAcobrar(void*);
 int venta_findMaxId(void* pElement, int indice, int *id);

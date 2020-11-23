@@ -76,11 +76,12 @@ void* ll_findAndReturnElement(LinkedList* this, int (*pFind)(void*,int), int num
 int ll_mapInt(LinkedList* this, int (*pCalcMaxInt)(void*,int,int*), int *pResultado);
 int ll_mapDosEntidades(LinkedList* usuarios, LinkedList* posts, int(*pDos)(void*, void*));
 
-int ll_reduceInt(LinkedList* this, void*, int(*pDosByInt)(void*,void*,int), int*);
+int ll_reduceInt(LinkedList* this, void*, int(*pDosByInt)(void*,void*,int), int*, int);
+int ll_reduceIntMinMax(LinkedList* this, void* aux2, int(*pReduceInt)(void*,void*,int*), int*);
 int ll_mapDosEntidadesByInt(LinkedList*, LinkedList*, int(*pDosByInt)(void*,void*,int), int);
 LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, int(*pDosByInt)(void*,void*,int), int);
 
-
+void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, int* pResultado, int* pResultado2);
 
 /*int ll_map(LinkedList* this, int (*pFunc)(void*)); // lista
 int ll_filter(LinkedList* this, int (*pFunc)(void*));

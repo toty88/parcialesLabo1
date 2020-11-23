@@ -170,7 +170,7 @@ char* cliente_getCuit(Cliente* this)
 int cliente_setCuit(Cliente* this, char* cuit)
 {
     int output = -1;
-    if(this != NULL && cliente_isValidCuit(cuit))
+    if(this != NULL && cliente_isValidCuitTXT(cuit))
     {
         strncpy(this->cuit,cuit,(int)sizeof(this->cuit));
         output = 0;
@@ -178,7 +178,7 @@ int cliente_setCuit(Cliente* this, char* cuit)
     return output;
 }
 
-int cliente_isValidCuit(char* cuit)
+int cliente_isValidCuitTXT(char* cuit)
 {
     int output = 0;
     int contador = 0;
@@ -259,7 +259,15 @@ int cliente_DoesIdExist(void* pElement, int id)
 
 
 
+/*      SETTERS      */
 
+
+
+/*      GETTERS      */
+
+
+
+/*      IS_VALID     */
 
 
 

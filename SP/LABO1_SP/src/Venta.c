@@ -1,5 +1,7 @@
 #include"Venta.h"
 
+/*      CONSTRUCTOR & DESTRUCTOR      */
+
 Venta* venta_new(void)
 {
     return (Venta*)malloc(sizeof(Venta));
@@ -54,10 +56,7 @@ Venta* venta_newParamTXT(char* id_venta, char* id_cliente, char* nombre_archivo,
     return NULL;
 }
 
-int venta_getId_cliente(Venta* this)
-{
-    return this->id_cliente;
-}
+/*      SETTERS      */
 
 int venta_setId_cliente(Venta* this, int id_cliente)
 {
@@ -81,21 +80,6 @@ int venta_setId_clienteTXT(Venta* this, char* id_cliente)
         output = 0;
     }
      return output;
-}
-
-int venta_isValidId_cliente(int id_cliente)
-{
-    return 1;
-}
-
-int venta_isValidId_clienteTXT(char* id_cliente)
-{
-    return 1;
-}
-
-int venta_getId_venta(Venta* this)
-{
-    return this->id_venta;
 }
 
 int venta_setId_venta(Venta* this, int id_venta)
@@ -122,21 +106,6 @@ int venta_setId_ventaTXT(Venta* this, char* id_venta)
      return output;
 }
 
-int venta_isValidId_venta(int id_venta)
-{
-    return 1;
-}
-
-int venta_isValidId_ventaTXT(char* id_venta)
-{
-    return 1;
-}
-
-int venta_getCantidad_afiches(Venta* this)
-{
-    return this->cantidad_afiches;
-}
-
 int venta_setCantidad_afiches(Venta* this, int cantidad_afiches)
 {
     int output = -1;
@@ -161,21 +130,6 @@ int venta_setCantidad_afichesTXT(Venta* this, char* cantidad_afiches)
      return output;
 }
 
-int venta_isValidCantidad_afiches(int cantidad_afiches)
-{
-    return 1;
-}
-
-int venta_isValidCantidad_afichesTXT(char* cantidad_afiches)
-{
-    return 1;
-}
-
-char* venta_getNombre_archivo(Venta* this)
-{
-    return this->nombre_archivo;
-}
-
 int venta_setNombre_archivo(Venta* this, char* nombre_archivo)
 {
     int output = -1;
@@ -185,16 +139,6 @@ int venta_setNombre_archivo(Venta* this, char* nombre_archivo)
         output = 0;
     }
     return output;
-}
-
-int venta_isValidNombre_archivo(char* nombre_archivo)
-{
-    return 1;
-}
-
-int venta_getZona(Venta* this)
-{
-    return this->zona;
 }
 
 int venta_setZona(Venta* this, int zona)
@@ -219,6 +163,148 @@ int venta_setZonaTXT(Venta* this, char* zona)
         output = 0;
     }
      return output;
+}
+
+int venta_setEstado(Venta* this, int estado)
+{
+    int output = -1;
+    if(this != NULL)
+    {
+        this->estado = estado;
+        output = 0;
+    }
+    return output;
+}
+
+int venta_setEstadoTXT(Venta* this, char* estado)
+{
+    int output = -1;
+    int bufferEstado;
+    if(this != NULL && estado != NULL)
+    {
+        if(venta_isValidEstadoTXT(estado))
+        {
+            bufferEstado = atoi(estado);
+            this->estado = bufferEstado;
+            output = 0;
+        }
+    }
+    return output;
+}
+
+
+/*      GETTERS      */
+
+int venta_getId_cliente(Venta* this)
+{
+    return this->id_cliente;
+}
+
+int venta_getId_venta(Venta* this)
+{
+    return this->id_venta;
+}
+
+int venta_getCantidad_afiches(Venta* this)
+{
+    return this->cantidad_afiches;
+}
+
+char* venta_getNombre_archivo(Venta* this)
+{
+    return this->nombre_archivo;
+}
+
+int venta_getZona(Venta* this)
+{
+    return this->zona;
+}
+
+int venta_getEstado(Venta* this)
+{
+    return this->estado;
+}
+
+
+/*      IS_VALID     */
+
+int venta_isValidId_cliente(int id_cliente)
+{
+    int output = 0;
+    if(id_cliente > 0)
+    {
+        output = 1;
+    }
+    return output;
+}
+
+int venta_isValidId_clienteTXT(char* id_cliente)
+{
+    int output = 0;
+    int bufferID;
+    if(id_cliente !=NULL && utn_isIntNumber(id_cliente))
+    {
+        bufferID = atoi(id_cliente);
+        if(bufferID > 0)
+        {
+            output = 1;
+        }
+    }
+    return output;
+}
+
+int venta_isValidId_venta(int id_venta)
+{
+    {
+        int output = 0;
+        if(id_venta > 0)
+        {
+            output = 1;
+        }
+        return output;
+    }
+}
+
+int venta_isValidId_ventaTXT(char* id_venta)
+{
+    int output = 0;
+    int bufferID;
+    if(id_venta !=NULL && utn_isIntNumber(id_venta))
+    {
+        bufferID = atoi(id_venta);
+        if(bufferID > 0)
+        {
+            output = 1;
+        }
+    }
+    return output;
+}
+
+int venta_isValidCantidad_afiches(int cantidad_afiches)
+{
+    {
+        int output = 0;
+        if(cantidad_afiches > 0)
+        {
+            output = 1;
+        }
+        return output;
+    }
+}
+
+int venta_isValidCantidad_afichesTXT(char* cantidad_afiches)
+{
+    int output = 0;
+    int bufferID;
+    if(cantidad_afiches !=NULL && utn_isIntNumber(cantidad_afiches))
+    {
+        bufferID = atoi(cantidad_afiches);
+        if(bufferID > 0)
+        {
+            output = 1;
+        }
+    }
+    return output;
 }
 
 int venta_isValidZona(int zona)
@@ -246,36 +332,19 @@ int venta_isValidZonaTXT(char* zona)
     return output;
 }
 
-int venta_setEstadoTXT(Venta* this, char* estado)
+int venta_isValidEstadoTXT(char* estado)
 {
-    int output = -1;
+    int output = 0;
     int bufferEstado;
     if(estado != NULL && utn_isNumeric(estado))
     {
         bufferEstado = atoi(estado);
-        if(bufferEstado == 0 || bufferEstado == 1)
+        if(bufferEstado == A_COBRAR || bufferEstado == COBRADO)
         {
-            this->estado = bufferEstado;
-            output = 0;
+            output = 1;
         }
     }
     return output;
-}
-
-int venta_setEstado(Venta* this, int estado)
-{
-    int output = -1;
-    if(this != NULL)
-    {
-        this->estado = estado;
-        output = 0;
-    }
-    return output;
-}
-
-int venta_getEstado(Venta* this)
-{
-    return this->estado;
 }
 
 int venta_isValidEstado(int estado)
@@ -287,6 +356,25 @@ int venta_isValidEstado(int estado)
     }
     return output;
 }
+
+int venta_isValidNombre_archivo(char* nombre_archivo)
+{
+    int output = 0;
+    char separador = '.';
+    char* extencion;
+    if(nombre_archivo != NULL)
+    {
+        extencion = strrchr(nombre_archivo, separador);
+        if(extencion != NULL && strcmp(".tiff", extencion) == 0)
+        {
+            output = 1;
+        }
+    }
+    return output;
+}
+
+
+/*      FUNCIONES EXTRAS     */
 
 int venta_print(void* pElement)
 {

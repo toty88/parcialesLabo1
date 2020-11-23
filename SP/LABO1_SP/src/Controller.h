@@ -15,7 +15,6 @@ int controller_loadClientesFromText(char*, LinkedList*);
 int controller_saveClientesAsText(char* path , LinkedList* pArrayListClientes);
 int controller_ListClientes(LinkedList* pArrayListClientes);
 int controller_addCliente(LinkedList* pArrayListClientes);
-int controller_isClienteCuitValid(char* cuit);
 //int controller_saveClienteConTotalVentasAsText(char* path , void* cliente, int ventas);
 
 int controller_loadVentasFromText(char* path, LinkedList* pArrayListVentas);

@@ -8,6 +8,8 @@
 #include"Cliente.h"
 #include"Venta.h"
 
-int cliente_venta_print(void* cliente, void* venta, int id_venta);
-int cliente_venta_isEstado(void* cliente, void* venta, int estado);
+int cliente_venta_print(void*, void*, int);
+int cliente_venta_isEstado(void*, void*, int);
+int cliente_venta_TotalAfichesPorCliente(void*, void*, int*);
+int cliente_venta_VentaConMasAfichesVendidos(void*, void*, int*);
 #endif /* CLIENTE_VENTA_H_ */

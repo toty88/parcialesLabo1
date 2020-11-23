@@ -32,3 +32,34 @@ int cliente_venta_isEstado(void* cliente, void* venta, int estado)
     return output;
 }
 
+int cliente_venta_TotalAfichesPorCliente(void* cliente, void* venta, int* pResultado)
+{
+    int output = 0;
+    Cliente* auxCliente = (Cliente*)cliente;
+    Venta* auxVenta = (Venta*)venta;
+    if(auxCliente != NULL && auxVenta != NULL && pResultado != NULL)
+    {
+        if(cliente_getId(auxCliente) == venta_getId_cliente(auxVenta))
+        {
+            *pResultado += venta_getCantidad_afiches(auxVenta);
+            output = 0;
+        }
+    }
+    return output;
+}
+
+int cliente_venta_VentaConMasAfichesVendidos(void* cliente, void* venta, int* pResultado)
+{
+    int output = -1;
+    Cliente* auxCliente = (Cliente*)cliente;
+    Venta* auxVenta = (Venta*)venta;
+    if(auxCliente != NULL && auxVenta != NULL)
+    {
+        if(cliente_getId(auxCliente) == venta_getId_cliente(auxVenta))
+        {
+            *pResultado = venta_getCantidad_afiches(auxVenta);
+            output = 0;
+        }
+    }
+    return output;
+}
