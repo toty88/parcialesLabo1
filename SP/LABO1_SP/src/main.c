@@ -17,7 +17,6 @@ int main(void)
                 && listaVentas != NULL
                 && !(controller_loadClientesFromText("clientes.txt", listaClientes))
                 && !(controller_loadVentasFromText("ventas.txt", listaVentas)))
-
         {
             do
             {
@@ -37,27 +36,59 @@ int main(void)
                         }
                         else if(bufferResultado == -2)
                         {
-                            printf("\n >>>>> CLIENTE NO AGREGADO, ERORR EN CUIT <<<<<\n");
+                            printf("\n >>>>> ATENCION! CLIENTE NO AGREGADO, CORROBORAR CUIT <<<<<\n");
                         }
                         break;
                     case 2:
-                        if(!(controller_venderAfiches(listaVentas, listaClientes)))
+                        bufferResultado = controller_venderAfiches(listaVentas, listaClientes);
+                        if(bufferResultado == 0)
                         {
                             printf("\n >>>>> VENTA REALIZADA CON EXITO <<<<<\n");
                         }
+                        else if(bufferResultado == 1)
+                        {
+                            printf("\n >>>>> NO SE REALIZO NINGUNA VENTA <<<<<\n");
+                        }
+                        else
+                        {
+                            printf("\n >>>>> ATENCION! ERROR EN VENTA, CORROBORAR <<<<<\n");
+                        }
                         break;
                     case 3:
-                        if(!(controller_ListVentas(listaVentas)))
+                        bufferResultado = controller_modificarVentas(listaVentas, listaClientes);
+                        if(bufferResultado == 0)
                         {
-                            printf("\n >>>>> CLIENTES LISTADOS CON EXITO <<<<<\n");
+                            printf("\n >>>>> VENTA MODIFICADA CON EXITO <<<<<\n");
                         }
-
+                        else if(bufferResultado == 1)
+                        {
+                            printf("\n >>>>> NO SE REALIZO NINGUNA MODIFICACION <<<<<\n");
+                        }
+                        else
+                        {
+                            printf("\n >>>>> ATENCION! ERROR EN MODIFICACION, CORROBORAR <<<<<\n");
+                        }
                         break;
                     case 4:
-
+                        bufferResultado = controller_cobrarVentas(listaVentas, listaClientes);
+                        if(bufferResultado == 0)
+                        {
+                            printf("\n >>>>> VENTA COBRADA CON EXITO <<<<<\n");
+                        }
+                        else if(bufferResultado == 1)
+                        {
+                            printf("\n >>>>> NO SE REALIZO NINGUNA VENTA <<<<<\n");
+                        }
+                        else
+                        {
+                            printf("\n >>>>> ATENCION! ERROR EN VENTA, CORROBORAR <<<<<\n");
+                        }
                         break;
                     case 5:
-
+                        if(!(controller_generarInformes(listaVentas, listaClientes)))
+                        {
+                            printf("\n >>>>> INFORME/S GENERADO/S CON EXITO <<<<<\n");
+                        }
                         break;
                     case 6:
                         printf("\n >>>>> HA SALIDO, HASTA LUEGO <<<<<\n");

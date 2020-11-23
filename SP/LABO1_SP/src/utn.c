@@ -212,23 +212,28 @@ int utn_getStringWithOnlyNumbers(char *msg, char *msgError, char *pCadena, int l
  * @param reintentos: La cantidad de veces que el usuario puede reintentar en caso de error
  * @return (-1) Error (0) todo OK
  */
-int utn_getStringWithNumbersAndSymbols(char *msg, char *msgError, char *pCadena, int limite, int reintentos) {
+int utn_getStringWithNumbersAndSymbols(char *msg, char *msgError, char *pCadena, int limite, int reintentos)
+{
     int output = -1;
-    if (msg != NULL && msgError != NULL && pCadena != NULL && limite > 0 && reintentos > 0) {
-        do {
+    if (msg != NULL && msgError != NULL && pCadena != NULL && limite > 0 && reintentos > 0)
+    {
+        do
+        {
             printf("%s", msg);
-            if (!(myGets(pCadena, limite))) {
-                for(int x = 0; x<limite; x++){
-                    pCadena[x] = toupper(pCadena[x]);
-                }
+            if (!(myGets(pCadena, limite)))
+            {
                 output = 0;
-            } else {
+            }
+            else
+            {
                 reintentos--;
-                if (reintentos > 0) {
+                if (reintentos > 0)
+                {
                     printf("%s: %d\n", msgError, reintentos);
                 }
             }
-        } while (output != 0 && reintentos > 0);
+        }
+        while (output != 0 && reintentos > 0);
     }
     return output;
 }

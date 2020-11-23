@@ -70,6 +70,8 @@ int venta_isValidEstado(int estado);
 
 /*      FUNCIONES EXTRAS     */
 int venta_print(void*);
+int venta_printAcobrar(void*);
 int venta_findMaxId(void* pElement, int indice, int *id);
+int venta_findVentaById(void* pElement, int id);
 
 #endif /* VENTA_H_ */

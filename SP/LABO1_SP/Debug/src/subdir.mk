@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/Cliente.c \
+../src/Cliente_Venta.c \
 ../src/Controller.c \
 ../src/LinkedList.c \
 ../src/Venta.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 
 OBJS += \
 ./src/Cliente.o \
+./src/Cliente_Venta.o \
 ./src/Controller.o \
 ./src/LinkedList.o \
 ./src/Venta.o \
@@ -25,6 +27,7 @@ OBJS += \
 
 C_DEPS += \
 ./src/Cliente.d \
+./src/Cliente_Venta.d \
 ./src/Controller.d \
 ./src/LinkedList.d \
 ./src/Venta.d \

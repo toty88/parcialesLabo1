@@ -1,8 +1,8 @@
 id_venta,id_cliente,nombre_archivo,cantidad_afiches,zona,estado
 1,91,RutrumNulla.gif,54,2,1
 2,75,EtCommodo.tiff,37,0,0
-3,94,Et.gif,37,2,0
-4,20,CondimentumNeque.gif,71,2,0
+3,1,Et.gif,37,2,1
+4,1,CondimentumNeque.gif,71,2,0
 5,35,HabitassePlateaDictumst.tiff,26,1,0
 6,9,Sed.gif,30,0,0
 7,93,Risus.gif,20,0,1
@@ -13,8 +13,8 @@ id_venta,id_cliente,nombre_archivo,cantidad_afiches,zona,estado
 12,30,SuscipitNullaElit.jpeg,62,1,0
 13,1,Et.jpeg,26,0,1
 14,94,ConsequatMetusSapien.gif,48,0,1
-15,51,MetusArcu.jpeg,53,1,0
-16,84,In.tiff,90,2,1
+15,1,MetusArcu.jpeg,53,1,1
+16,1,In.tiff,90,2,1
 17,82,OdioCurabiturConvallis.tiff,33,1,0
 18,10,Nulla.tiff,93,1,1
 19,19,AnteIpsumPrimis.png,66,2,1
@@ -93,9 +93,10 @@ id_venta,id_cliente,nombre_archivo,cantidad_afiches,zona,estado
 92,65,HacHabitasse.png,84,1,0
 93,34,UtSuscipit.jpeg,59,0,1
 94,97,Erat.tiff,97,1,0
-95,66,IdMassa.gif,89,0,0
+95,66,jejejejejeje.jpge,89,0,1
 96,3,SuscipitLigula.tiff,8,1,1
 97,44,EgetEleifend.tiff,6,1,1
 98,33,AliquetMassaId.png,14,1,1
-99,3,Vehicula.tiff,68,0,0
+99,3,Vehicula.tiff,68,0,1
 100,23,QuisTurpisSed.tiff,31,1,1
+101,101,prueba.tiff,12,2,0

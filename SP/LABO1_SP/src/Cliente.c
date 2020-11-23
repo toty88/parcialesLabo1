@@ -101,6 +101,7 @@ int cliente_isValidIdTXT(char* id)
     }
     return output;
 }
+
 char* cliente_getNombre(Cliente* this)
 {
     return this->nombre;
@@ -231,7 +232,7 @@ int cliente_DoesClientExist(void* pElement, char* cuit)
     int output = 0;
     Cliente* aux = NULL;
     aux = (Cliente*)pElement;
-    if (aux != NULL && cuit > 0)
+    if (aux != NULL && cuit != NULL)
     {
         if(strncmp(cliente_getCuit(aux),cuit, SIZE_CUIT) == 0)
         {

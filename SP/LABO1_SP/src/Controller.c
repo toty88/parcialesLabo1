@@ -47,18 +47,25 @@ int controller_loadClientesFromText(char* path, LinkedList* pArrayListClientes)
     return output;
 }
 
-int controller_ListClientes(LinkedList* pArrayListClientes)
+int controller_saveClientesAsText(char* path , LinkedList* pArrayListClientes)
 {
     int output = -1;
-    if(pArrayListClientes != NULL)
+    if(path != NULL && pArrayListClientes != NULL)
     {
-        if(!(ll_map(pArrayListClientes, cliente_print)))
+        FILE* out;
+        out = fopen(path, "w");
+        if(out != NULL)
         {
-            output = 0;
+            if(!(parser_ClientesToText(out, pArrayListClientes)))
+            {
+                output = 0;
+            }
+            fclose(out);
         }
     }
     return output;
 }
+
 
 int controller_loadVentasFromText(char* path, LinkedList* pArrayListVentas)
 {
@@ -73,6 +80,38 @@ int controller_loadVentasFromText(char* path, LinkedList* pArrayListVentas)
             output = 0;
         }
         fclose(in);
+    }
+    return output;
+}
+
+int controller_saveVentasAsText(char* path , LinkedList* pArrayListVentas)
+{
+    int output = -1;
+    if(path != NULL && pArrayListVentas != NULL)
+    {
+        FILE* out;
+        out = fopen(path, "w");
+        if(out != NULL)
+        {
+            if(!(parser_VentasToText(out, pArrayListVentas)))
+            {
+                output = 0;
+            }
+            fclose(out);
+        }
+    }
+    return output;
+}
+
+int controller_ListClientes(LinkedList* pArrayListClientes)
+{
+    int output = -1;
+    if(pArrayListClientes != NULL)
+    {
+        if(!(ll_map(pArrayListClientes, cliente_print)))
+        {
+            output = 0;
+        }
     }
     return output;
 }
@@ -132,7 +171,8 @@ int controller_addCliente(LinkedList* pArrayListClientes)
                         && !(utn_getString("(C). Ingrese Apellido: ", "Error,  Reintentos", bufferApellido, SIZE_STR, 3)))
                 {
                      aux = cliente_newParam(bufferId, bufferNombre, bufferApellido, bufferCuit);
-                    if(aux != NULL && !(ll_add(pArrayListClientes, aux)))
+                    if(aux != NULL && !(ll_add(pArrayListClientes, aux))
+                            && !(controller_saveClientesAsText("clientes.txt", pArrayListClientes)))
                     {
                         output = 0;
                     }
@@ -146,8 +186,6 @@ int controller_addCliente(LinkedList* pArrayListClientes)
     }
     return output;
 }
-
-
 
 int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes)
 {
@@ -197,9 +235,10 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
                     {
 
                         nuevaVenta = venta_newParam(bufferVentaID, bufferID, bufferNombreArchivo, bufferCantAfiches, bufferZona);
-                        if(nuevaVenta != NULL && !(ll_add(pArrayListVentas, nuevaVenta)))
+                        if(nuevaVenta != NULL && !(ll_add(pArrayListVentas, nuevaVenta))
+                                && !(controller_saveVentasAsText("ventas.txt", pArrayListVentas)))
                         {
-                            printf("nuevo id: %d", venta_getId_venta(nuevaVenta));
+                            printf("\n >>>>> NUEVO ID DE VENTA #%d <<<<<\n", venta_getId_venta(nuevaVenta));
                             output = 0;
                         }
                     }
@@ -221,27 +260,275 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
     while(ventaMenuOption != 4);
     return output;
 }
-/* ################### POSIBLES FUNCIONES A FUTURO ############################ */
 
-/*int controller_saveAsText2(char* path , Zona* pArrayZonas, pParser pCriterio)
+int controller_modificarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes)
 {
     int output = -1;
-    int lenZona;
-    if(path != NULL && pCriterio != NULL && !(zona_len(pArrayZonas, &lenZona)))
+    int modificarMenuOption;
+    int flagId = 0;
+    int guardarCambios;
+    int bufferVentaID;
+    int bufferCantAfiches;
+    int bufferZona;
+    char bufferNombreArchivo[SIZE_FILE_NAME];
+    Venta* auxVenta;
+    do
     {
-        FILE* out;
-        out = fopen(path, "w");
-        if(out != NULL)
+        if(!(menu_ModifyVenta(&modificarMenuOption)))
         {
-            if(!(pCriterio(out, pArrayZonas, lenZona)))
+            switch(modificarMenuOption)
             {
-                output = 0;
+            case 1:
+                if(!(ll_map(pArrayListVentas, venta_printAcobrar)))
+                {
+                    output = 1;
+
+                }
+                break;
+            case 2:
+                if(!(utn_getInt("\n(A). Ingrese ID Venta: ", "Error, Reintentos", &bufferVentaID, 2)))
+                {
+                    auxVenta = (Venta*)ll_findAndReturnElement(pArrayListVentas, venta_findVentaById, bufferVentaID);
+                    if(auxVenta != NULL && venta_getEstado(auxVenta) == A_COBRAR
+                            && !(ll_mapDosEntidadesByInt(pArrayListClientes, pArrayListVentas, cliente_venta_print, bufferVentaID)))
+                    {
+                        flagId = 1;
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! ID NO ENCONTRADO, INTENTE DE NUEVO <<<<<\n");
+                }
+                break;
+            case 3:
+                if(flagId == 1)
+                {
+                    if(!(utn_getInt("(B). Ingrese Nueva Cantidad de Afiches: ", "Error, Reintentos", &bufferCantAfiches, 2))
+                        && !(utn_getIntConMinMax("\n(0). CONFIRMAR CAMBIO"
+                                "\n(1). ANULAR CAMBIO ----> ", "Error, Reintentos", &guardarCambios,0,1, 2))
+                        && guardarCambios == 0
+                        && !(venta_setCantidad_afiches(auxVenta, bufferCantAfiches)))
+                    {
+                        printf("\n >>>>> CANTIDAD DE AFICHES MODIFICADA CON EXITO <<<<<\n");
+                        output = 0;
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! DEBE INGRESAR ID VENTA, INTENTE OPCION 2 <<<<<\n");
+                }
+
+                break;
+            case 4:
+                if(flagId == 1)
+                {
+                    if(!(utn_getStringWithNumbersAndSymbols("(C). Ingrese Nuevo Nombre de Archivo: ",
+                            "Error, Reintentos", bufferNombreArchivo, SIZE_FILE_NAME, 2))
+                            && !(utn_getIntConMinMax("\n(0). CONFIRMAR CAMBIO"
+                                "\n(1). ANULAR CAMBIO ----> ", "Error, Reintentos", &guardarCambios,0,1, 2))
+                            && guardarCambios == 0
+                            && !(venta_setNombre_archivo(auxVenta, bufferNombreArchivo)))
+                    {
+                        printf("\n >>>>> NOMBRE ARCHIVO MODIFICADO CON EXITO <<<<<\n");
+                        output = 0;
+
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! DEBE INGRESAR ID VENTA, INTENTE OPCION 2 <<<<<\n");
+                }
+                break;
+            case 5:
+                if(flagId == 1)
+                {
+                    if(!(utn_getIntConMinMax("(D). Seleccione Nueva Zona\n(0). CABA\n(1). ZONA SUR\n(2). ZONA OESTE: ----> "
+                            , "Error, Reintentos", &bufferZona, 0, 2, 2))
+                        && !(utn_getIntConMinMax("\n(0). CONFIRMAR CAMBIO"
+                                "\n(1). ANULAR CAMBIO ----> ", "Error, Reintentos", &guardarCambios,0,1, 2))
+                                && guardarCambios == 0
+                                && !(venta_setZona(auxVenta, bufferZona)))
+                    {
+                        printf("\n >>>>> ZONA MODIFICADA CON EXITO <<<<<\n");
+                        output = 0;
+
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! DEBE INGRESAR ID VENTA, INTENTE OPCION 2 <<<<<\n");
+                }
+                break;
+            case 6:
+                if(output == 0 && !(controller_saveVentasAsText("ventas.txt", pArrayListVentas)))
+                {
+                    output = 0;
+                    printf("\n >>>>> VOLVIENDO AL MENU PRINCIPAL <<<<<\n");
+                }
+                break;
+            default:
+                printf("\n >>>>> OPCION INVALIDA, VUELVA A INTENTAR <<<<<\n");
             }
-            fclose(out);
+        }
+
+    }
+    while(modificarMenuOption != 6);
+    return output;
+}
+
+int controller_cobrarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes)
+{
+    int output = -1;
+    int cobrarMenuOption;
+    int flagId = 0;
+    int guardarCambios;
+    int bufferVentaID;
+    Venta* auxVenta;
+    do
+    {
+        if(!(menu_CobrarVenta(&cobrarMenuOption)))
+        {
+            switch(cobrarMenuOption)
+            {
+            case 1:
+                if(!(ll_map(pArrayListVentas, venta_printAcobrar)))
+                {
+                    output = 1;
+
+                }
+                break;
+            case 2:
+                if(!(utn_getInt("\n(A). Ingrese ID Venta: ", "Error, Reintentos", &bufferVentaID, 2)))
+                {
+                    auxVenta = (Venta*)ll_findAndReturnElement(pArrayListVentas, venta_findVentaById, bufferVentaID);
+                    if(auxVenta != NULL && venta_getEstado(auxVenta) == A_COBRAR
+                            && !(ll_mapDosEntidadesByInt(pArrayListClientes, pArrayListVentas, cliente_venta_print, bufferVentaID)))
+                    {
+                        flagId = 1;
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! ID NO ENCONTRADO, INTENTE DE NUEVO <<<<<\n");
+                }
+                break;
+            case 3:
+                if(flagId == 1)
+                {
+                    if(!(utn_getIntConMinMax("\nMODIFICAR A ESTADO COBRADO\n(0). CONFIRMAR CAMBIO"
+                                "\n(1). ANULAR CAMBIO ----> ", "Error, Reintentos", &guardarCambios,0,1, 2))
+                        && guardarCambios == 0
+                        && !(venta_setEstado(auxVenta, COBRADO)))
+                    {
+                        printf("\n >>>>> ESTADO MODIFICADO CON EXITO <<<<<\n");
+                        output = 0;
+                    }
+                }
+                else
+                {
+                    printf("\n >>>>> ATENCION! DEBE INGRESAR ID VENTA, INTENTE OPCION 2 <<<<<\n");
+                }
+                break;
+            case 4:
+                if(output == 0 && !(controller_saveVentasAsText("ventas.txt", pArrayListVentas)))
+                {
+                    output = 0;
+                    auxVenta = NULL;
+                    printf("\n >>>>> VOLVIENDO AL MENU PRINCIPAL <<<<<\n");
+                }
+                break;
+            default:
+                printf("\n >>>>> OPCION INVALIDA, VUELVA A INTENTAR <<<<<\n");
+            }
         }
     }
+    while(cobrarMenuOption != 4);
     return output;
-}*/
+}
+
+int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayClientes)
+{
+    int output = -1;
+    int informesMenuOption;
+    void* aux;
+    int ventasCobradas = 0;
+    int ventasAcobrar = 0;
+    FILE* out;
+    LinkedList* pArrayListClientesCobrados;
+    LinkedList* pArrayListClientesACobrar;
+    do
+    {
+        if(!(menu_generarInformes(&informesMenuOption)))
+        {
+            switch(informesMenuOption)
+            {
+            case 1:
+                pArrayListClientesCobrados = ll_filterToNewListByInt(pArrayClientes, pArrayListVentas, cliente_venta_isEstado, COBRADO);
+                if(pArrayListClientesCobrados != NULL)
+                {
+                    out = fopen("cobradas.txt", "w");
+                    if(out != NULL)
+                    {
+                        for(int x = 0; x < ll_len(pArrayListClientesCobrados); x++)
+                        {
+                            aux = ll_get(pArrayListClientesCobrados, x);
+                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasCobradas))
+                                    && !(parser_ClientesConTotalVentasToText(out, aux, ventasCobradas)))
+                            {
+                                output = 0;
+                            }
+                        }
+                        printf("\n >>>>> COBRADAS.TXT GENERADO CON EXITO <<<<<\n");
+                        fclose(out);
+                    }
+                }
+                break;
+            case 2:
+                pArrayListClientesACobrar = ll_filterToNewListByInt(pArrayClientes, pArrayListVentas, cliente_venta_isEstado, A_COBRAR);
+                if(pArrayListClientesACobrar != NULL)
+                {
+                    out = fopen("a_cobrar.txt", "w");
+                    if(out != NULL)
+                    {
+                        for(int x = 0; x < ll_len(pArrayListClientesACobrar); x++)
+                        {
+                            aux = ll_get(pArrayListClientesACobrar, x);
+                            if(!(ll_reduceInt(pArrayListVentas, aux, cliente_venta_isEstado, &ventasAcobrar))
+                                    && !(parser_ClientesConTotalVentasToText(out, aux, ventasAcobrar)))
+                            {
+                                output = 0;
+                            }
+                        }
+                        printf("\n >>>>> A_COBRAR.TXT GENERADO CON EXITO <<<<<\n");
+                        fclose(out);
+                    }
+                }
+                break;
+            case 3:
+
+                break;
+            case 4:
+                    printf("\n >>>>> VOLVIENDO AL MENU PRINCIPAL <<<<<\n");
+                break;
+            default:
+                printf("\n >>>>> OPCION INVALIDA, VUELVA A INTENTAR <<<<<\n");
+            }
+        }
+    }
+    while(informesMenuOption != 4);
+    return output;
+}
+
+
+
+
+
+
+
+
+/* ################### POSIBLES FUNCIONES A FUTURO ############################ */
+
+
 
 /*
 static int envio_generateId(LinkedList* pArrayListProductos, int*);

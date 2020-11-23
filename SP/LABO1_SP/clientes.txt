@@ -2,7 +2,6 @@ id,nombre,apellido,cuit
 1,Terrence,Tubbs,20336330982
 2,Spenser,Minette,20336330983
 3,Clemente,Wasmuth,20336330984
-4,Mano,M'cowis,20336330985
 5,Melissa,Crippill,20336330986
 6,Abbi,Ogers,20336330987
 7,Luigi,Collard,20336330988
@@ -42,7 +41,6 @@ id,nombre,apellido,cuit
 41,Saw,Fosdick,20336331022
 42,Tabor,Wimmers,20336331023
 43,Jeannine,Spray,20336331024
-44,Clarke,D'eye,20336331025
 45,Luciano,Point,20336331026
 46,Alikee,Bowater,20336331027
 47,Aland,Curnick,20336331028
@@ -99,3 +97,4 @@ id,nombre,apellido,cuit
 98,Vicki,Lafond,20336331079
 99,Berenice,Buswell,20336331080
 100,Theodoric,Duplock,20336331081
+101,edgardo,lorenzo,20336330972

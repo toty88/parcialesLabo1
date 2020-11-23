@@ -31,14 +31,18 @@ struct LinkedList
 }typedef LinkedList;
 #endif
 
-typedef int (*pFunc)        (void*);
-typedef int (*pFuncSort)    (void*,void*);
-typedef int (*pReduce)      (void*,float*);
-typedef int (*pFind)        (void*,int);
-typedef int (*pFuncCmpStr)  (void*,char*);
-typedef int (*pCalcMaxInt)  (void*,int,int*);
-typedef int(*pDosEntidades) (void*, void*);
-typedef int (*pFuncDobleSort)(void* ,void*, void*, void*);
+typedef int (*pFunc)            (void*);
+typedef int (*pFuncSort)        (void*,void*);
+typedef int (*pReduce)          (void*,float*);
+typedef int (*pReduceInt)       (void*,void*,int*);
+typedef int (*pFind)            (void*,int);
+typedef int (*pFuncCmpStr)      (void*,char*);
+typedef int (*pCalcMaxInt)      (void*,int,int*);
+typedef int (*pDosEntidades)    (void*,void*);
+typedef int (*pDosByInt)        (void*,void*,int);
+typedef int (*pFuncDobleSort)   (void*,void*,void*,void*);
+
+
 //Publicas
 LinkedList* ll_newLinkedList(void);
 int ll_len(LinkedList* this);
@@ -67,11 +71,17 @@ int ll_sort3(LinkedList* this, LinkedList* this2, int (*pFuncDobleSort)(void* ,v
 int ll_map(LinkedList* this, int (*pCriterio)(void*)); // lista
 int ll_mapStr(LinkedList* this, char* str, int (*pFuncCmpStr)(void*,char*));
 int ll_filter(LinkedList* this, int (*pCriterio)(void*));
-LinkedList* ll_filterToNewListByStr(LinkedList* this, int (*pCriterio)(void*, char*), char* str);
-int ll_reduceFloat(LinkedList* this, int (*pCriterio)(void*, float*), float*);
-int ll_findByInt(LinkedList* this, int(*pCriterio)(void*, int), int number);
-int ll_mapInt(LinkedList* this, int (*pCriterio)(void*, int, int*), int *pResultado);
+int ll_findByInt(LinkedList* this, int (*pFind)(void*,int), int number);
+void* ll_findAndReturnElement(LinkedList* this, int (*pFind)(void*,int), int number);
+int ll_mapInt(LinkedList* this, int (*pCalcMaxInt)(void*,int,int*), int *pResultado);
 int ll_mapDosEntidades(LinkedList* usuarios, LinkedList* posts, int(*pDos)(void*, void*));
+
+int ll_reduceInt(LinkedList* this, void*, int(*pDosByInt)(void*,void*,int), int*);
+int ll_mapDosEntidadesByInt(LinkedList*, LinkedList*, int(*pDosByInt)(void*,void*,int), int);
+LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, int(*pDosByInt)(void*,void*,int), int);
+
+
+
 /*int ll_map(LinkedList* this, int (*pFunc)(void*)); // lista
 int ll_filter(LinkedList* this, int (*pFunc)(void*));
 int ll_filter2(LinkedList* this, int (*pFuncCmpStr)(void*, char*))

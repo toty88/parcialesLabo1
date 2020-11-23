@@ -26,9 +26,9 @@ int menu_Main(int *pResultado)
                 "######################################################\n"
                 "(1).  AGREGAR CLIENTE\n"
                 "(2).  VENDER AFICHES\n"
-                "(3).  LISTAR VENTAS\n"
-                "(4).  MODIFICAR VENTA\n"
-                "(5).  COBRAR VENTA\n"
+                "(3).  MODIFICAR VENTA\n"
+                "(4).  COBRAR VENTA\n"
+                "(5).  GENERAR INFORMES\n"
                 "(6).  SALIR -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
         {
             *pResultado = opcion;
@@ -61,6 +61,74 @@ int menu_VenderAfiches(int *pResultado)
     return output;
 }
 
+int menu_ModifyVenta(int *pResultado)
+{
+    int output = -1;
+    int opcion;
+    if(pResultado != NULL)
+    {
+        if(!(utn_getInt(
+                      "\n######################################################\n"
+                        "################### MENU MODIFICAR ###################\n"
+                        "######################################################\n"
+                        "(1). LISTAR VENTAS\n"
+                        "(2). INGRESE ID DE VENTA\n"
+                        "(3). MODIFICAR CANTIDAD DE AFICHES\n"
+                        "(4). MODIFICAR NOMBRE DEL ARCHIVO\n"
+                        "(5). MODIFICAR ZONA\n"
+                        "(6). VOLVER MENU PRINCIPAL -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
+        {
+            *pResultado = opcion;
+            output = 0;
+            }
+    }
+    return output;
+}
+
+int menu_CobrarVenta(int *pResultado)
+{
+    int output = -1;
+    int opcion;
+    if(pResultado != NULL)
+    {
+        if(!(utn_getInt(
+                      "\n######################################################\n"
+                        "################# MENU COBRAR VENTA ##################\n"
+                        "######################################################\n"
+                        "(1). LISTAR VENTAS\n"
+                        "(2). INGRESE ID DE VENTA\n"
+                        "(3). CONFIRMAR COBRO\n"
+                        "(4). VOLVER MENU PRINCIPAL -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
+        {
+            *pResultado = opcion;
+            output = 0;
+            }
+    }
+    return output;
+}
+
+int menu_generarInformes(int *pResultado)
+{
+    int output = -1;
+    int opcion;
+    if(pResultado != NULL)
+    {
+        if(!(utn_getInt(
+                      "\n######################################################\n"
+                        "################### MENU INFORMES ####################\n"
+                        "######################################################\n"
+                        "(1). GENERAR INFORME DE COBROS\n"
+                        "(2). GENERAR INFORME DE DEUDAS\n"
+                        "(3). GENERAR ESTADISTICAS\n"
+                        "(4). VOLVER MENU PRINCIPAL -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
+        {
+            *pResultado = opcion;
+            output = 0;
+            }
+    }
+    return output;
+}
+
 /* ########################## PRINTS ##################################*/
 
 int printColumn(void){
@@ -81,32 +149,10 @@ int printColumn(void){
 
 
 
-/*int menu_ModifyEmployee(int *pResultado)
-{
-    int output = -1;
-    int opcion;
-    if(pResultado != NULL)
-    {
-        if(!(utn_getInt(
-                      "\n######################################################\n"
-                        "################### MENU MODIFICAR ###################\n"
-                        "######################################################\n"
-                        "(1). LISTAR CLIENTES\n"
-                        "(2). INGRESE ID DE CLIENTE\n"
-                        "(3). MODIFICAR NOMBRE\n"
-                        "(4). MODIFICAR HORAS TRABAJADAS\n"
-                        "(5). MODIFICAR SUELDO\n"
-                        "(6). VOLVER MENU PRINCIPAL -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
-        {
-            *pResultado = opcion;
-            output = 0;
-            }
-    }
-    return output;
-}
 
 
 
+/*
 int menu_SortEmployee(int *pResultado)
 {
     int output = -1;

@@ -246,7 +246,6 @@ int venta_isValidZonaTXT(char* zona)
     return output;
 }
 
-
 int venta_setEstadoTXT(Venta* this, char* estado)
 {
     int output = -1;
@@ -256,6 +255,7 @@ int venta_setEstadoTXT(Venta* this, char* estado)
         bufferEstado = atoi(estado);
         if(bufferEstado == 0 || bufferEstado == 1)
         {
+            this->estado = bufferEstado;
             output = 0;
         }
     }
@@ -272,6 +272,7 @@ int venta_setEstado(Venta* this, int estado)
     }
     return output;
 }
+
 int venta_getEstado(Venta* this)
 {
     return this->estado;
@@ -293,10 +294,10 @@ int venta_print(void* pElement)
     Venta* aux;
     aux = (Venta*)pElement;
     char bufferZona[SIZE_FILE_NAME] = "CABA";
-    char bufferEstado[SIZE_FILE_NAME] = "A COBRAR";
+    char bufferEstado[SIZE_FILE_NAME];
     if(aux != NULL)
     {
-        printf("%d - \t%d - \t%s - \t%d -", venta_getId_venta(aux), venta_getId_cliente(aux)
+        printf("%d - \t%d - \t%s - \t\t\t\t\t%d -", venta_getId_venta(aux), venta_getId_cliente(aux)
                 , venta_getNombre_archivo(aux)
                 , venta_getCantidad_afiches(aux));
         if(venta_getZona(aux) == 1)
@@ -309,12 +310,53 @@ int venta_print(void* pElement)
         }
         printf("\t%s -", bufferZona);
 
-        if(venta_getEstado(aux) == 1)
+        if(venta_getEstado(aux) == A_COBRAR)
+        {
+            sprintf(bufferEstado, "A COBRAR");
+        }
+        else if(venta_getEstado(aux) == COBRADO)
         {
             sprintf(bufferEstado, "COBRADO");
         }
         printf("\t%s\n", bufferEstado);
         output = 0;
+    }
+    return output;
+}
+
+int venta_printAcobrar(void* pElement)
+{
+    int output = -1;
+    Venta* aux;
+    aux = (Venta*)pElement;
+    int zona;
+    char bufferZona[SIZE_FILE_NAME];
+    char bufferEstado[SIZE_FILE_NAME];
+    if(aux != NULL)
+    {
+        if(venta_getEstado(aux) == A_COBRAR)
+        {
+            printf("%d - \t%d - \t%s - \t\t\t\t\t%d -", venta_getId_venta(aux), venta_getId_cliente(aux)
+                    , venta_getNombre_archivo(aux)
+                    , venta_getCantidad_afiches(aux));
+            zona = venta_getZona(aux);
+            switch(zona)
+            {
+            case 0:
+                sprintf(bufferZona, "CABA");
+                break;
+            case 1:
+                sprintf(bufferZona, "ZONA SUR");
+                break;
+            case 2:
+                sprintf(bufferZona, "ZONA OESTE");
+                break;
+            }
+            printf("\t%s -", bufferZona);
+            sprintf(bufferEstado, "A COBRAR");
+            printf("\t%s\n", bufferEstado);
+            output = 0;
+        }
     }
     return output;
 }
@@ -332,6 +374,22 @@ int venta_findMaxId(void* pElement, int indice, int *id)
             *id = venta_getId_venta(aux);
         }
         output = 0;
+    }
+    return output;
+}
+
+int venta_findVentaById(void* pElement, int id)
+{
+
+    int output = -1;
+    Venta* aux = NULL;
+    aux = (Venta*)pElement;
+    if (aux != NULL && id > 0)
+    {
+        if(venta_getId_venta(aux) == id)
+        {
+            output = 0;
+        }
     }
     return output;
 }

@@ -8,16 +8,24 @@
 #include"menu.h"
 #include"LinkedList.h"
 #include"parser.h"
+#include"Cliente_Venta.h"
 
 
 int controller_loadClientesFromText(char*, LinkedList*);
+int controller_saveClientesAsText(char* path , LinkedList* pArrayListClientes);
 int controller_ListClientes(LinkedList* pArrayListClientes);
 int controller_addCliente(LinkedList* pArrayListClientes);
 int controller_isClienteCuitValid(char* cuit);
+//int controller_saveClienteConTotalVentasAsText(char* path , void* cliente, int ventas);
 
 int controller_loadVentasFromText(char* path, LinkedList* pArrayListVentas);
 int controller_ListVentas(LinkedList* pArrayListVentas);
 int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes);
+int controller_modificarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes);
+int controller_cobrarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayListClientes);
+int controller_saveVentasAsText(char* path , LinkedList* pArrayListVentas);
+
+int controller_generarInformes(LinkedList* pArrayListVentas, LinkedList* pArrayClientes);
 
 int controller_loadFromBinary(char* path , LinkedList* pArrayListProducto);
 int controller_ListEntidades(LinkedList* pArrayListUsuarios, LinkedList* pArrayListMensajes);

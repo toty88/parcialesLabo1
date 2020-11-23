@@ -549,22 +549,46 @@ int ll_mapStr(LinkedList* this, char* str, pFuncCmpStr pCriterio)
     }
 }
 
-int ll_mapDosEntidades(LinkedList* usuarios, LinkedList* posts, pDosEntidades pCriterio)
+int ll_mapDosEntidades(LinkedList* this, LinkedList* this2, pDosEntidades pCriterio)
 {
     int output = -1;
-    void* auxUsuario;
-    void* auxMensaje;
-    if(usuarios != NULL && posts != NULL && pCriterio != NULL)
+    void* auxThis;
+    void* auxThis2;
+    if(this != NULL && this2 != NULL && pCriterio != NULL)
     {
-        for(int x = 0; x < ll_len(usuarios); x++)
+        for(int x = 0; x < ll_len(auxThis); x++)
         {
-            auxUsuario = ll_get(usuarios, x);
-            for(int j = 0; j < ll_len(posts); j++)
+            auxThis = ll_get(this, x);
+            for(int j = 0; j < ll_len(auxThis2); j++)
             {
-                auxMensaje = ll_get(posts, j);
-                if(!(pCriterio(auxUsuario, auxMensaje)))
+                auxThis2 = ll_get(this2, j);
+                if(!(pCriterio(auxThis, auxThis2)))
                 {
                     output = 0;
+                }
+            }
+        }
+    }
+    return output;
+}
+
+int ll_mapDosEntidadesByInt(LinkedList* this, LinkedList* this2, pDosByInt pCriterio, int number)
+{
+    int output = -1;
+    void* auxThis;
+    void* auxThis2;
+    if(this != NULL && this2 != NULL && pCriterio != NULL && number > 0)
+    {
+        for(int x = 0; x < ll_len(this); x++)
+        {
+            auxThis = ll_get(this, x);
+            for(int j = 0; j < ll_len(this2); j++)
+            {
+                auxThis2 = ll_get(this2, j);
+                if(!(pCriterio(auxThis, auxThis2, number)))
+                {
+                    output = 0;
+                    break;
                 }
             }
         }
@@ -611,8 +635,25 @@ int ll_findByInt(LinkedList* this, pFind pCriterio, int number)
     }
 }
 
+void* ll_findAndReturnElement(LinkedList* this, pFind pCriterio, int number)
+{
+    void* pElement;
+    if(this != NULL && pCriterio != NULL && number > 0)
+    {
+        for(int x = 0; x < ll_len(this); x++)
+        {
+            pElement = ll_get(this, x);
+            if(!(pCriterio(pElement, number)))
+            {
+                break;
+            }
+        }
+    }
+    return pElement;
+}
+
 int ll_filter(LinkedList* this, pFunc pCriterio)
-{//agregar mas funciones criterio y hacer un switch
+{
     int output = -1;
     void* aux;
     if(this != NULL && pCriterio != NULL)
@@ -634,37 +675,39 @@ int ll_filter(LinkedList* this, pFunc pCriterio)
     return output;
 }
 
-LinkedList* ll_filterToNewListByStr(LinkedList* this, pFuncCmpStr pCriterio, char* str)
+LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, pDosByInt pCriterio, int number)
 {//agregar mas funciones criterio y hacer un switch
-    void* aux;
-    LinkedList* this2;
-    if(this != NULL && pCriterio != NULL && str != NULL)
+    void* aux1;
+    void* aux2;
+    LinkedList* this3;
+    if(this != NULL && this2 != NULL && pCriterio != NULL && number >= 0)
     {
-        this2 = ll_newLinkedList();
-        if(this2 != NULL)
+        this3 = ll_newLinkedList();
+        if(this3 != NULL)
         {
             for(int x = 0; x < ll_len(this); x++)
             {
-                aux = ll_get(this, x);
-                if(aux != NULL)
+                aux1 = ll_get(this, x);
+                for(int j = 0; j < ll_len(this2); j++)
                 {
-                    if(!(pCriterio(aux, str)))
+                    aux2 = ll_get(this2, j);
+                    if(pCriterio(aux1, aux2, number))
                     {
-                        ll_add(this2, aux);
+                        ll_add(this3, aux1);
+                        break;
                     }
                 }
             }
         }
-
     }
-    return this2;
+    return this3;
 }
 
-int ll_reduceFloat(LinkedList* this, pReduce pCriterio, float* pResultado)
+int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResultado)
 {
     int output = -1;
     void* aux;
-    float counter = 0;
+    int counter = 0;
     if(this != NULL && pCriterio != NULL)
     {
         for(int x = 0; x < ll_len(this); x++)
@@ -672,12 +715,16 @@ int ll_reduceFloat(LinkedList* this, pReduce pCriterio, float* pResultado)
             aux = ll_get(this, x);
             if(aux != NULL)
             {
-                 if(!(pCriterio(aux, &counter)))
+                 if(pCriterio(aux2,aux, 1))
                  {
-                     *pResultado = counter;
+                     counter++;
                      output = 0;
                  }
             }
+        }
+        if(counter > 0)
+        {
+            *pResultado = counter;
         }
     }
     return output;

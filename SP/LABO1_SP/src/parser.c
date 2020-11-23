@@ -36,6 +36,53 @@ int parser_ClientesFromText(FILE* pFile , LinkedList* pArrayListClientes)
     return output;
 }
 
+int parser_ClientesToText(FILE* pFile , LinkedList* pArrayListClientes)
+{
+    int output = -1;
+    if(pFile != NULL && pArrayListClientes != NULL)
+    {
+        int len = ll_len(pArrayListClientes);
+        Cliente* aux;
+        if(pFile != NULL)
+        {
+            fprintf(pFile, "id,nombre,apellido,cuit\n");
+            for(int x = 0; x < len; x++)
+            {
+                aux = (Cliente*)ll_get(pArrayListClientes, x);
+                if(aux != NULL)
+                {
+                    fprintf(pFile, "%d,%s,%s,%s\n"
+                            ,cliente_getId(aux)
+                            ,cliente_getNombre(aux)
+                            ,cliente_getApellido(aux)
+                            ,cliente_getCuit(aux));
+                    output = 0;
+                }
+            }
+        }
+    }
+    return output;
+}
+
+int parser_ClientesConTotalVentasToText(FILE* pFile , void* cliente, int ventas)
+{
+    int output = -1;
+    if(pFile != NULL)
+    {
+        Cliente* aux = (Cliente*)cliente;
+        if(aux != NULL)
+        {
+            fprintf(pFile, "%d,%s,%s,%s,%d\n"
+                    ,cliente_getId(aux)
+                    ,cliente_getNombre(aux)
+                    ,cliente_getApellido(aux)
+                    ,cliente_getCuit(aux)
+                    ,ventas);
+            output = 0;
+        }
+     }
+    return output;
+}
 
 int parser_VentasFromText(FILE* pFile , LinkedList* pArrayListVentas)
 {
@@ -85,35 +132,39 @@ int parser_VentasFromText(FILE* pFile , LinkedList* pArrayListVentas)
     return output;
 }
 
-
-/*
-int parser_ProductoToText(FILE* pFile , LinkedList* pArrayListProducto)
+int parser_VentasToText(FILE* pFile , LinkedList* pArrayListVentas)
 {
     int output = -1;
-    if(pFile != NULL && pArrayListProducto != NULL)
+    if(pFile != NULL && pArrayListVentas != NULL)
     {
-        int len = ll_len(pArrayListProducto);
-        Envio* aux;
+        int len = ll_len(pArrayListVentas);
+        Venta* aux;
         if(pFile != NULL)
         {
-            fprintf(pFile, "id_producto,nombre_producto,id_camion,zona_destino,km_recorridos,tipo_entrega,costo_envio\n");
+            fprintf(pFile, "id_venta,id_cliente,nombre_archivo,cantidad_afiches,zona,estado\n");
             for(int x = 0; x < len; x++)
             {
-                aux = (Envio*)ll_get(pArrayListProducto, x);
+                aux = (Venta*)ll_get(pArrayListVentas, x);
                 if(aux != NULL)
                 {
-                    fprintf(pFile, "%d,%s,%d,%s,%.2f,%d,%.2f\n",envio_getIdProducto(aux), envio_getNombreProducto(aux),
-                                                                envio_getIdCamion(aux), envio_getZonaDestino(aux),
-                                                                envio_getKilometrosRecorridos(aux),envio_getTipoEntrega(aux),
-                                                                envio_getCostoEnvio(aux));
+                    fprintf(pFile, "%d,%d,%s,%d,%d,%d\n"
+                            ,venta_getId_venta(aux)
+                            ,venta_getId_cliente(aux)
+                            ,venta_getNombre_archivo(aux)
+                            ,venta_getCantidad_afiches(aux)
+                            ,venta_getZona(aux)
+                            ,venta_getEstado(aux));
+                    output = 0;
                 }
-                output = 0;
             }
         }
     }
     return output;
 }
 
+
+
+/*
 int parser_ProductoFromBinary(FILE* pFile , LinkedList* pArrayListProducto)
 {
     int output = -1;
