@@ -17,7 +17,8 @@ int menu_generarInformes(int *pResultado);
 
 /* ######################## HEADERS LISTAS #############################*/
 
-int printColumn(void);
+int printColumnClientes(void);
+int printColumnVentas(void);
 
 
 

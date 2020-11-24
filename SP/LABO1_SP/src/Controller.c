@@ -32,6 +32,8 @@ static int venta_generateId(LinkedList* pArrayListVentas, int *id) {
     return output;
 }
 
+static int controller_ListClientes(LinkedList* pArrayListClientes);
+
 static int controller_clienteConMasAfichesComprados(LinkedList*, LinkedList*);
 
 static int controller_clienteConMenosAfichesComprados(LinkedList*, LinkedList*);
@@ -56,10 +58,7 @@ static int controller_ventaConMasAfichesVendidos(LinkedList* pArrayListClientesC
             {
                 if(ventasConIgualCantidad == 0)
                 {
-                    printf("\n >>>>> VENTA CON MAS AFICHES VENDIDOS: %d - %d - afiches: %d <<<<<\n"
-                            ,venta_getId_venta(auxMaxAfichesVendidos)
-                            ,venta_getId_cliente(auxMaxAfichesVendidos)
-                            ,totalAfichesVendidos);
+                    ll_mapDosEntidadesByInt(pArrayListClientesCobrados, pArrayListVentas, cliente_venta_print, venta_getId_venta(auxMaxAfichesVendidos));
                 }
                 else
                 {
@@ -226,11 +225,13 @@ int controller_saveVentasAsText(char* path , LinkedList* pArrayListVentas)
 
 /* LISTAR - ADD - VENDER - MOD - COBRAR - INFORMES */
 
-int controller_ListClientes(LinkedList* pArrayListClientes)
+
+static int controller_ListClientes(LinkedList* pArrayListClientes)
 {
     int output = -1;
     if(pArrayListClientes != NULL)
     {
+        printColumnClientes();
         if(!(ll_map(pArrayListClientes, cliente_print)))
         {
             output = 0;
@@ -311,7 +312,7 @@ int controller_venderAfiches(LinkedList* pArrayListVentas, LinkedList* pArrayLis
             switch(ventaMenuOption)
             {
             case 1:
-                if(!(ll_map(pArrayListClientes, cliente_print)))
+                if(!(controller_ListClientes(pArrayListClientes)))
                 {
                     output = 1;
                 }
@@ -389,6 +390,7 @@ int controller_modificarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayL
             switch(modificarMenuOption)
             {
             case 1:
+                printColumnVentas();
                 if(!(ll_map(pArrayListVentas, venta_printAcobrar)))
                 {
                     output = 1;
@@ -501,6 +503,7 @@ int controller_cobrarVentas(LinkedList* pArrayListVentas, LinkedList* pArrayList
             switch(cobrarMenuOption)
             {
             case 1:
+                printColumnVentas();
                 if(!(ll_map(pArrayListVentas, venta_printAcobrar)))
                 {
                     output = 1;

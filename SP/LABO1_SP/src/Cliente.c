@@ -203,7 +203,11 @@ int cliente_print(void* pElement)
     aux = (Cliente*)pElement;
     if(aux != NULL)
     {
-        printf("%d - %s - %s - %s\n", cliente_getId(aux), cliente_getNombre(aux), cliente_getApellido(aux), cliente_getCuit(aux));
+        printf("%5d %20s %20s %25s\n"
+                ,cliente_getId(aux)
+                ,cliente_getNombre(aux)
+                ,cliente_getApellido(aux)
+                ,cliente_getCuit(aux));
         output = 0;
     }
     return output;

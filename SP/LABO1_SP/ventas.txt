@@ -101,3 +101,7 @@ id_venta,id_cliente,nombre_archivo,cantidad_afiches,zona,estado
 100,23,QuisTurpisSed.tiff,31,1,1
 101,101,prueba.tiff,12,2,0
 102,101,pepe.tiff,22,2,0
+103,101,concierto.tiff,230,2,1
+104,94,test.tiff,131,0,0
+105,94,otraprueba.tiff,230,0,1
+106,82,maspruebas.tiff,340,1,1

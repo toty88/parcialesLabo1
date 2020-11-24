@@ -385,7 +385,7 @@ int venta_print(void* pElement)
     char bufferEstado[SIZE_FILE_NAME];
     if(aux != NULL)
     {
-        printf("%d - \t%d - \t%s - \t\t\t\t\t%d -", venta_getId_venta(aux), venta_getId_cliente(aux)
+        printf("%5d %5d %s50 %8d", venta_getId_venta(aux), venta_getId_cliente(aux)
                 , venta_getNombre_archivo(aux)
                 , venta_getCantidad_afiches(aux));
         if(venta_getZona(aux) == 1)
@@ -396,7 +396,7 @@ int venta_print(void* pElement)
         {
             sprintf(bufferZona, "ZONA OESTE");
         }
-        printf("\t%s -", bufferZona);
+        printf("%5s", bufferZona);
 
         if(venta_getEstado(aux) == A_COBRAR)
         {
@@ -406,7 +406,7 @@ int venta_print(void* pElement)
         {
             sprintf(bufferEstado, "COBRADO");
         }
-        printf("\t%s\n", bufferEstado);
+        printf("%5s\n", bufferEstado);
         output = 0;
     }
     return output;
@@ -424,9 +424,7 @@ int venta_printAcobrar(void* pElement)
     {
         if(venta_getEstado(aux) == A_COBRAR)
         {
-            printf("%d - \t%d - \t%s - \t\t\t\t\t%d -", venta_getId_venta(aux), venta_getId_cliente(aux)
-                    , venta_getNombre_archivo(aux)
-                    , venta_getCantidad_afiches(aux));
+            printf("%10d %13d %16d", venta_getId_venta(aux), venta_getId_cliente(aux), venta_getCantidad_afiches(aux));
             zona = venta_getZona(aux);
             switch(zona)
             {
@@ -434,15 +432,15 @@ int venta_printAcobrar(void* pElement)
                 sprintf(bufferZona, "CABA");
                 break;
             case 1:
-                sprintf(bufferZona, "ZONA SUR");
+                sprintf(bufferZona, "SUR");
                 break;
             case 2:
-                sprintf(bufferZona, "ZONA OESTE");
+                sprintf(bufferZona, "OESTE");
                 break;
             }
-            printf("\t%s -", bufferZona);
+            printf("%16s", bufferZona);
             sprintf(bufferEstado, "A COBRAR");
-            printf("\t%s\n", bufferEstado);
+            printf("%16s %40s\n", bufferEstado, venta_getNombre_archivo(aux));
             output = 0;
         }
     }

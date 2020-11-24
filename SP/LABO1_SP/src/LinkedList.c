@@ -679,7 +679,8 @@ void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, 
 {
     void* aux1;
     void* aux2;
-    int max;
+    int bufferMax;
+    int bufferAcumulador = 0;
     void* aux3;
     if(this != NULL && this2 != NULL && pCriterio != NULL && pResultado != NULL)
     {
@@ -689,17 +690,19 @@ void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, 
             for(int j = 0; j < ll_len(this2); j++)
             {
                 aux2 = ll_get(this2, j);
-                if(pCriterio(aux2, aux1, &max))
+                if(!(pCriterio(aux2, aux1, &bufferAcumulador)))
                 {
-                    if(*pResultado < max || x == 0)
+                    if(bufferMax < bufferAcumulador || x == 0)
                     {
-                        *pResultado = max;
+                        bufferMax = bufferAcumulador;
+                        *pResultado = bufferMax;
                         aux3 = aux1;
+                        *pResultado2 = 0;
                     }
-                }
-                if(max == *pResultado)
-                {
-                    *pResultado2 = 1;
+                    else if(bufferMax == bufferAcumulador)
+                    {
+                       *pResultado2 = 1;
+                    }
                 }
             }
         }

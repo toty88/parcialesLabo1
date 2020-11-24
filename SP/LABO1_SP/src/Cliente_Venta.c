@@ -55,7 +55,7 @@ int cliente_venta_VentaConMasAfichesVendidos(void* cliente, void* venta, int* pR
     Venta* auxVenta = (Venta*)venta;
     if(auxCliente != NULL && auxVenta != NULL)
     {
-        if(cliente_getId(auxCliente) == venta_getId_cliente(auxVenta))
+        if(venta_getEstado(auxVenta) == COBRADO && cliente_getId(auxCliente) == venta_getId_cliente(auxVenta))
         {
             *pResultado = venta_getCantidad_afiches(auxVenta);
             output = 0;
