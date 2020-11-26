@@ -77,11 +77,11 @@ int main(void)
                         }
                         else if(bufferResultado == 1)
                         {
-                            printf("\n >>>>> NO SE REALIZO NINGUNA VENTA <<<<<\n");
+                            printf("\n >>>>> NO SE REALIZO NINGUN COBRO <<<<<\n");
                         }
                         else
                         {
-                            printf("\n >>>>> ATENCION! ERROR EN VENTA, CORROBORAR <<<<<\n");
+                            printf("\n >>>>> ATENCION! ERROR EN COBRO, CORROBORAR <<<<<\n");
                         }
                         break;
                     case 5:

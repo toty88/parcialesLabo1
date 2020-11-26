@@ -380,33 +380,32 @@ int venta_print(void* pElement)
 {
     int output = -1;
     Venta* aux;
+    int zona;
     aux = (Venta*)pElement;
     char bufferZona[SIZE_FILE_NAME] = "CABA";
-    char bufferEstado[SIZE_FILE_NAME];
+    char bufferEstado[SIZE_FILE_NAME] = "COBRADO";
     if(aux != NULL)
     {
-        printf("%5d %5d %s50 %8d", venta_getId_venta(aux), venta_getId_cliente(aux)
-                , venta_getNombre_archivo(aux)
-                , venta_getCantidad_afiches(aux));
-        if(venta_getZona(aux) == 1)
+        printf("%10d %13d %16d", venta_getId_venta(aux), venta_getId_cliente(aux), venta_getCantidad_afiches(aux));
+        zona = venta_getZona(aux);
+        switch(zona)
         {
-            sprintf(bufferZona, "ZONA SUR");
+        case 0:
+            sprintf(bufferZona, "CABA");
+            break;
+        case 1:
+            sprintf(bufferZona, "SUR");
+            break;
+        case 2:
+            sprintf(bufferZona, "OESTE");
+            break;
         }
-        else if(venta_getZona(aux) == 2)
-        {
-            sprintf(bufferZona, "ZONA OESTE");
-        }
-        printf("%5s", bufferZona);
-
-        if(venta_getEstado(aux) == A_COBRAR)
+        printf("%16s", bufferZona);
+        if(venta_getEstado(aux) == 0)
         {
             sprintf(bufferEstado, "A COBRAR");
         }
-        else if(venta_getEstado(aux) == COBRADO)
-        {
-            sprintf(bufferEstado, "COBRADO");
-        }
-        printf("%5s\n", bufferEstado);
+        printf("%16s %40s\n", bufferEstado, venta_getNombre_archivo(aux));
         output = 0;
     }
     return output;

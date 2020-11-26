@@ -1,10 +1,3 @@
-/*
- * Venta.h
- *
- *  Created on: Nov 21, 2020
- *      Author: toty
- */
-
 #ifndef VENTA_H_
 #define VENTA_H_
 #include<stdio.h>

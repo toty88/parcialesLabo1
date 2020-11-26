@@ -120,7 +120,6 @@ static int addNode(LinkedList *this, int nodeIndex, void *pElement)
     return output;
 }
 
-
 /** \brief Permite realizar el test de la funcion addNode la cual es privada
  * \param this LinkedList* Puntero a la lista
  * \param nodeIndex int Ubicacion donde se agregara el nuevo nodo
@@ -408,6 +407,7 @@ int ll_contains(LinkedList *this, void *pElement)
     }
     return output;
 }
+
 /** \brief  Determina si todos los elementos de la lista (this2)
  estan contenidos en la lista (this)
  *
@@ -417,6 +417,7 @@ int ll_contains(LinkedList *this, void *pElement)
  ( 1) Si los elementos de (this2) estan contenidos en la lista (this)
  ( 0) si los elementos de (this2) NO estan contenidos en la lista (this)
  */
+
 int ll_containsAll(LinkedList *this, LinkedList *this2)
 {
     int output = -1;
@@ -448,6 +449,7 @@ int ll_containsAll(LinkedList *this, LinkedList *this2)
  o (si el indice to es menor o igual a from o mayor al len de la lista)
  (puntero a la nueva lista) Si ok
  */
+
 LinkedList* ll_subList(LinkedList *this, int from, int to) {
     LinkedList *cloneArray = NULL;
     Node* pNodeToAdd = NULL;
@@ -476,6 +478,7 @@ LinkedList* ll_subList(LinkedList *this, int from, int to) {
  * \return LinkedList* Retorna  (NULL) Error: si el puntero a la listas es NULL
  (puntero a la nueva lista) Si ok
  */
+
 LinkedList* ll_clone(LinkedList *this) {
     LinkedList *cloneArray = NULL;
     if(this != NULL)
@@ -510,7 +513,18 @@ int swapNodes(Node* prevCurrent, Node* current, Node* next)
     return output;
 }
 
-int ll_map(LinkedList* this, pFunc pCriterio)
+
+/*      FUNCIONES EXTRAS     */
+
+/**
+ * @fn int ll_map(LinkedList*, pFunc)
+ * @brief funcion que mapea cada elemento de la linked list con una funcion criterio
+ *
+ * @param this la linked list
+ * @param pCriterio la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
+int ll_map(LinkedList* this, pMap pCriterio)
 {
     int output = -1;
     void* aux;
@@ -528,6 +542,15 @@ int ll_map(LinkedList* this, pFunc pCriterio)
     return output;
 }
 
+/**
+ * @fn int ll_mapStr(LinkedList*, char*, pFuncCmpStr)
+ * @brief funcion que mapea cada elemento de la linked list con una funcion criterio y un char*
+ *
+ * @param this la linked list
+ * @param str el parametro char* que recibe la funcion criterio
+ * @param pCriterio la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_mapStr(LinkedList* this, char* str, pFuncCmpStr pCriterio)
 {
     {
@@ -549,6 +572,15 @@ int ll_mapStr(LinkedList* this, char* str, pFuncCmpStr pCriterio)
     }
 }
 
+/**
+ * @fn int ll_mapDosEntidades(LinkedList*, LinkedList*, pDosEntidades)
+ * @brief funcion que mapea dos elementos de la linked list con una funcion criterio
+ *
+ * @param this primer linked list
+ * @param this2 segunda linked list
+ * @param pCriterio la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_mapDosEntidades(LinkedList* this, LinkedList* this2, pDosEntidades pCriterio)
 {
     int output = -1;
@@ -572,6 +604,16 @@ int ll_mapDosEntidades(LinkedList* this, LinkedList* this2, pDosEntidades pCrite
     return output;
 }
 
+/**
+ * @fn int ll_mapDosEntidadesByInt(LinkedList*, LinkedList*, pDosByInt, int)
+ * @brief funcion que mapea dos elementos de la linked list con una funcion criterio y un int
+ *
+ * @param this primer linked list
+ * @param this2 segunda linked list
+ * @param pCriterio la funcion criterio
+ * @param number el parametro int que recibe la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_mapDosEntidadesByInt(LinkedList* this, LinkedList* this2, pDosByInt pCriterio, int number)
 {
     int output = -1;
@@ -596,6 +638,15 @@ int ll_mapDosEntidadesByInt(LinkedList* this, LinkedList* this2, pDosByInt pCrit
     return output;
 }
 
+/**
+ * @fn int ll_mapInt(LinkedList*, palcMaxInt, int*)
+ * @brief funcion que mapea dos elementos de la linked list con una funcion criterio la cual modifica un int*
+ *
+ * @param this la linked list
+ * @param pCriterio la funcion criterio
+ * @param pResultado el parametro int* que se pasa como parametro a la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_mapInt(LinkedList* this, pCalcMaxInt pCriterio, int *pResultado)
 {
     int output = -1;
@@ -614,6 +665,15 @@ int ll_mapInt(LinkedList* this, pCalcMaxInt pCriterio, int *pResultado)
     return output;
 }
 
+/**
+ * @fn int ll_findByInt(LinkedList*, pFind, int)
+ * @brief funcion que pasa un elemento y un parametro a la funcion criterio y termina cuando esta devuelve 0 (ok)
+ *
+ * @param this la linked list
+ * @param pCriterio la funcion criterio que recibe el parametro int
+ * @param number el parametro int
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_findByInt(LinkedList* this, pFind pCriterio, int number)
 {
     {
@@ -624,7 +684,7 @@ int ll_findByInt(LinkedList* this, pFind pCriterio, int number)
             for(int x = 0; x < ll_len(this); x++)
             {
                 aux = ll_get(this, x);
-                if((pCriterio(aux, number)))
+                if(!(pCriterio(aux, number)))
                 {
                     output = 0;
                     break;
@@ -635,7 +695,16 @@ int ll_findByInt(LinkedList* this, pFind pCriterio, int number)
     }
 }
 
-void* ll_findAndReturnElement(LinkedList* this, pFind pCriterio, int number)
+/**
+ * @fn void ll_findAndReturnElement*(LinkedList*, pFind, int)
+ * @brief funcion que pasa como parametro un elemento y un int a la funcion criterio y termina cuando esta devuelve 0 (ok)
+ *
+ * @param this la linked list
+ * @param pCriterio la funcion criterio
+ * @param number el parametro int
+ * @return (NULL) Error (Un puntero de tipo void que apunta a la dire de mem del elemento) Todo OK
+ */
+void* ll_findAndReturnElement(LinkedList* this, pFind pCriterio, int *pResultado, int number)
 {
     void* pElement;
     if(this != NULL && pCriterio != NULL && number > 0)
@@ -645,6 +714,7 @@ void* ll_findAndReturnElement(LinkedList* this, pFind pCriterio, int number)
             pElement = ll_get(this, x);
             if(!(pCriterio(pElement, number)))
             {
+                *pResultado = 0;
                 break;
             }
         }
@@ -652,30 +722,18 @@ void* ll_findAndReturnElement(LinkedList* this, pFind pCriterio, int number)
     return pElement;
 }
 
-int ll_filter(LinkedList* this, pFunc pCriterio)
-{
-    int output = -1;
-    void* aux;
-    if(this != NULL && pCriterio != NULL)
-    {
-        for(int x = 0; x < ll_len(this); x++)
-        {
-            aux = ll_get(this, x);
-            if(aux != NULL)
-            {
-                if(!(pCriterio(aux)))
-                {
-                    ll_pop(this, x);
-                    x--;
-                    output = 0;
-                }
-            }
-        }
-    }
-    return output;
-}
-
-void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, int* pResultado, int* pResultado2)
+/**
+ * @fn void ll_filterByInt*(LinkedList*, LinkedList*, pReduceInt, int*, int*)
+ * @brief funcion que filtra un elemento de entre 2 listas en base a una funcion criterio
+ *
+ * @param this la primera linked list
+ * @param this2 la segunda linked list
+ * @param pCriterio la funcion criterio que recibe dos int*
+ * @param pResultado el primer parametro int* que se le pasa a la funcion criterio
+ * @param pResultado2 el segundo parametro int* que se le pasa a la funcion criterio
+ * @return (NULL) Error (Un puntero de tipo void que apunta a la dire de mem del elemento) Todo OK
+ */
+void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, int* pResultado, int* pResultado2, int number)
 {
     void* aux1;
     void* aux2;
@@ -690,7 +748,7 @@ void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, 
             for(int j = 0; j < ll_len(this2); j++)
             {
                 aux2 = ll_get(this2, j);
-                if(!(pCriterio(aux2, aux1, &bufferAcumulador)))
+                if(!(pCriterio(aux2, aux1, &bufferAcumulador, number)))
                 {
                     if(bufferMax < bufferAcumulador || x == 0)
                     {
@@ -710,6 +768,16 @@ void* ll_filterByInt(LinkedList* this, LinkedList* this2, pReduceInt pCriterio, 
     return aux3;
 }
 
+/**
+ * @fn LinkedList ll_filterToNewListByInt*(LinkedList*, LinkedList*, pDosByInt, int)
+ * @brief funcion que filtra elementos de entre dos listas en base a que la funcion criterio retorne 1
+ *
+ * @param this la primera linked list
+ * @param this2 la segunda linked list
+ * @param pCriterio la funcion criterio que recibe 2 elementos de tipo void* y un int
+ * @param number el parametro int que se le pasa a la funcion criterio
+ * @return (NULL) Error (LinkedList*) Todo OK
+ */
 LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, pDosByInt pCriterio, int number)
 {
     void* aux1;
@@ -738,6 +806,17 @@ LinkedList* ll_filterToNewListByInt(LinkedList* this, LinkedList* this2, pDosByI
     return this3;
 }
 
+/**
+ * @fn int ll_reduceInt(LinkedList*, void*, pDosByInt, int*, int)
+ * @brief funcion que calcula un valor en base a una funcion criterio
+ *
+ * @param this la linked list
+ * @param aux2 un elemento de una linked list que llega como void*
+ * @param pCriterio la funcion criterio que recibe dos elementos de tipo void* y un int
+ * @param pResultado el int* donde se guarda el calculo
+ * @param number el int que recibe la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
 int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResultado, int number)
 {
     int output = -1;
@@ -750,7 +829,7 @@ int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResult
             aux = ll_get(this, x);
             if(aux != NULL)
             {
-                 if(pCriterio(aux2,aux, number))
+                 if(pCriterio(aux2,aux,number))
                  {
                      counter++;
                      output = 0;
@@ -765,7 +844,17 @@ int ll_reduceInt(LinkedList* this, void* aux2, pDosByInt pCriterio, int* pResult
     return output;
 }
 
-int ll_reduceIntMinMax(LinkedList* this, void* aux2, pReduceInt pCriterio, int* pResultado)
+/**
+ * @fn int ll_reduceIntMinMax(LinkedList*, void*, pReduceInt, int*)
+ * @brief funcion que calcula un valor en base a una funcion criterio
+ *
+ * @param this la linked list
+ * @param aux2 un elemento de una linked list que llega como void*
+ * @param pCriterio la funcion criterio que recibe dos elementos de tipo void* y un int*
+ * @param pResultado el int* donde se guarda el calculo
+ * @return (-1) Error (0) Todo OK
+ */
+int ll_reduceIntMinMax(LinkedList* this, void* aux2, pReduceInt pCriterio, int* pResultado, int number)
 {
     int output = -1;
     void* aux;
@@ -777,7 +866,7 @@ int ll_reduceIntMinMax(LinkedList* this, void* aux2, pReduceInt pCriterio, int* 
             aux = ll_get(this, x);
             if(aux != NULL)
             {
-                 if(!(pCriterio(aux2,aux, &counter)))
+                 if(!(pCriterio(aux2,aux, &counter, number)))
                  {
                      output = 0;
                  }
@@ -791,7 +880,15 @@ int ll_reduceIntMinMax(LinkedList* this, void* aux2, pReduceInt pCriterio, int* 
     return output;
 }
 
-int ll_sort2(LinkedList* this, pFuncSort pCriterio)
+/**
+ * @fn int ll_sort2(LinkedList*, pFuncSort)
+ * @brief funcion que intercambia dos elementos de una linked list
+ *
+ * @param this la linked list
+ * @param pCriterio la funcion criterio
+ * @return (-1) Error (0) Todo OK
+ */
+int ll_sort2(LinkedList* this, pDosEntidades pCriterio)
 {
     int output = -1;
     void* actual;
@@ -823,7 +920,19 @@ int ll_sort2(LinkedList* this, pFuncSort pCriterio)
     return output;
 }
 
-int ll_sort3(LinkedList* this, LinkedList* this2, pFuncDobleSort pCriterio)
+
+
+
+
+
+
+
+
+/*              POSIBLES FUNCIONES EXTRAS              */
+
+
+/*
+ * int ll_sort3(LinkedList* this, LinkedList* this2, pFuncDobleSort pCriterio)
 {
     int output = -1;
     void* uActual;
@@ -874,8 +983,37 @@ int ll_sort3(LinkedList* this, LinkedList* this2, pFuncDobleSort pCriterio)
     }
     return output;
 }
-
-
+ */
+///**
+// * @fn int ll_filter(LinkedList*, pFunc)
+// * @brief
+// *
+// * @param this
+// * @param pCriterio
+// * @return
+// */
+//int ll_filter(LinkedList* this, pFunc pCriterio)
+//{
+//    int output = -1;
+//    void* aux;
+//    if(this != NULL && pCriterio != NULL)
+//    {
+//        for(int x = 0; x < ll_len(this); x++)
+//        {
+//            aux = ll_get(this, x);
+//            if(aux != NULL)
+//            {
+//                if(!(pCriterio(aux)))
+//                {
+//                    ll_pop(this, x);
+//                    x--;
+//                    output = 0;
+//                }
+//            }
+//        }
+//    }
+//    return output;
+//}
 
 /*int ll_sort(LinkedList *this, pFuncSort pCriterio, int order)
 {

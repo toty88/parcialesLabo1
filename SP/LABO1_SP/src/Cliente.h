@@ -35,6 +35,7 @@ int cliente_isValidApellido(char* apellido);
 int cliente_isValidCuitTXT(char* cuit);
 
 int cliente_print(void*);
+int cliente_printConAfiche(void*, int);
 int cliente_findMaxId(void* pElement, int indice, int *id);
 int cliente_DoesClientExist(void* pElement, char* cuit);
 int cliente_DoesIdExist(void* pElement, int id);

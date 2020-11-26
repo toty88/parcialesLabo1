@@ -98,3 +98,6 @@ id,nombre,apellido,cuit
 99,Berenice,Buswell,20336331080
 100,Theodoric,Duplock,20336331081
 101,edgardo,lorenzo,20336330972
+102,pepe,yahoo,11336330977
+103,nose,meocurremas,55336330972
+104,jejeje,jajaja,66336330972

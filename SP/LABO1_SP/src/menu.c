@@ -29,6 +29,7 @@ int menu_Main(int *pResultado)
                 "(3).  MODIFICAR VENTA\n"
                 "(4).  COBRAR VENTA\n"
                 "(5).  GENERAR INFORMES\n"
+                //"(6).  BAJA CLIENTE\n"
                 "(6).  SALIR -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
         {
             *pResultado = opcion;
@@ -129,6 +130,29 @@ int menu_generarInformes(int *pResultado)
     return output;
 }
 
+int menu_RemoveCliente(int *pResultado)
+{
+    int output = -1;
+    int opcion;
+    if(pResultado != NULL)
+    {
+        if(!(utn_getInt(""
+                      "\n######################################################\n"
+                        "###################### MENU BAJA #####################\n"
+                        "######################################################\n"
+                        "(1). LISTAR CLIENTES\n"
+                        "(2). INGRESAR ID CLIENTE\n"
+                        "(3). CONFIRMAR BAJA\n"
+                        "(4). VOLVER MENU PRINCIPAL -------------> ","EROR, OPCION INVALIDA. REINTENTOS", &opcion, 3)))
+        {
+            *pResultado = opcion;
+            output = 0;
+        }
+
+    }
+    return output;
+}
+
 /* ########################## PRINTS ##################################*/
 
 int printColumnClientes(void){
@@ -157,10 +181,44 @@ int printColumnVentas(void){
     return 0;
 }
 
+int printColumnClientesConMasAfiches(void){
 
+    char sp = ' ';
 
+    printf(
+      "\n#############################################################################################\n"
+        "############################ CLIENTE CON MAS AFICHES COMPRADOS ##############################\n"
+        "#############################################################################################\n");
+    printf("# %1cID%15cNOMBRE%13cAPELLIDO%22cCUIT%8cCANT_AFICHES\n", sp, sp, sp, sp, sp);
+    printf("#############################################################################################\n\n");
+    return 0;
+}
 
+int printColumnClientesConMenosAfiches(void){
 
+    char sp = ' ';
+
+    printf(
+      "\n#############################################################################################\n"
+        "########################### CLIENTE CON MENOS AFICHES COMPRADOS #############################\n"
+        "#############################################################################################\n");
+    printf("# %1cID%15cNOMBRE%13cAPELLIDO%22cCUIT%8cCANT_AFICHES\n", sp, sp, sp, sp, sp);
+    printf("#############################################################################################\n\n");
+    return 0;
+}
+
+int printColumnVentaConMasAfiches(void){
+
+    char sp = ' ';
+
+    printf(
+      "\n###########################################################\n"
+        "################# VENTA CON MAS AFICHES ###################\n"
+        "###########################################################\n");
+    printf("# %1cID_VENTA%12cCUIT_CLIENTE%12cCANT_AFICHES\n", sp, sp, sp);
+    printf("###########################################################\n\n");
+    return 0;
+}
 
 
 /*

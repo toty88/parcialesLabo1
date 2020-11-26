@@ -1,5 +1,7 @@
 #include"Cliente.h"
 
+/*      CONSTRUCTOR & DESTRUCTOR      */
+
 Cliente* cliente_new(void)
 {
     return (Cliente*)malloc(sizeof(Cliente));
@@ -48,9 +50,28 @@ Cliente* cliente_newParamTXT(char* id, char* nombre, char* apellido, char* cuit)
     return NULL;
 }
 
-int cliente_getId(Cliente* this)
+/*      SETTERS      */
+
+int cliente_setCuit(Cliente* this, char* cuit)
 {
-    return this->id;
+    int output = -1;
+    if(this != NULL && cliente_isValidCuitTXT(cuit))
+    {
+        strncpy(this->cuit,cuit,(int)sizeof(this->cuit));
+        output = 0;
+    }
+    return output;
+}
+
+int cliente_setApellido(Cliente* this, char* apellido)
+{
+    int output = -1;
+    if(this != NULL && cliente_isValidApellido(apellido))
+    {
+        strncpy(this->apellido,apellido,(int)sizeof(this->apellido));
+        output = 0;
+    }
+    return output;
 }
 
 int cliente_setId(Cliente* this, int id)
@@ -75,6 +96,73 @@ int cliente_setIdTXT(Cliente* this, char* id)
         output = 0;
     }
      return output;
+}
+
+int cliente_setNombre(Cliente* this, char* nombre)
+{
+    int output = -1;
+    if(this != NULL && cliente_isValidNombre(nombre))
+    {
+        strncpy(this->nombre,nombre,(int)sizeof(this->nombre));
+        output = 0;
+    }
+    return output;
+}
+
+/*      GETTERS      */
+
+char* cliente_getCuit(Cliente* this)
+{
+    return this->cuit;
+}
+
+char* cliente_getApellido(Cliente* this)
+{
+    return this->apellido;
+}
+
+int cliente_getId(Cliente* this)
+{
+    return this->id;
+}
+
+char* cliente_getNombre(Cliente* this)
+{
+    return this->nombre;
+}
+
+/*      IS_VALID     */
+
+int cliente_isValidCuitTXT(char* cuit)
+{
+    int output = 0;
+    int contador = 0;
+    if(cuit != NULL && utn_isNumeric(cuit))
+    {
+        for(int x = 0; cuit[x] != '\0'; x++)
+        {
+            contador++;
+        }
+        if(contador == 11)
+        {
+            output = 1;
+        }
+    }
+    return output;
+}
+
+int cliente_isValidApellido(char* apellido)
+{
+    int output = 1;
+    if(apellido !=NULL){
+        for(int x = 0; apellido[x] !='\0'; x++){
+            if((apellido[x] < 'A' || apellido[x] > 'z') && (apellido[x] > 'Z' || apellido[x] < 'a') && apellido[x] != ' ' && apellido[x] != '-'){
+                output = 0;
+                break;
+            }
+        }
+    }
+    return output;
 }
 
 int cliente_isValidId(int id)
@@ -102,22 +190,6 @@ int cliente_isValidIdTXT(char* id)
     return output;
 }
 
-char* cliente_getNombre(Cliente* this)
-{
-    return this->nombre;
-}
-
-int cliente_setNombre(Cliente* this, char* nombre)
-{
-    int output = -1;
-    if(this != NULL && cliente_isValidNombre(nombre))
-    {
-        strncpy(this->nombre,nombre,(int)sizeof(this->nombre));
-        output = 0;
-    }
-    return output;
-}
-
 int cliente_isValidNombre(char* nombre)
 {
     int output = 1;
@@ -132,69 +204,7 @@ int cliente_isValidNombre(char* nombre)
     return output;
 }
 
-char* cliente_getApellido(Cliente* this)
-{
-    return this->apellido;
-}
-
-int cliente_setApellido(Cliente* this, char* apellido)
-{
-    int output = -1;
-    if(this != NULL && cliente_isValidApellido(apellido))
-    {
-        strncpy(this->apellido,apellido,(int)sizeof(this->apellido));
-        output = 0;
-    }
-    return output;
-}
-
-int cliente_isValidApellido(char* apellido)
-{
-    int output = 1;
-    if(apellido !=NULL){
-        for(int x = 0; apellido[x] !='\0'; x++){
-            if((apellido[x] < 'A' || apellido[x] > 'z') && (apellido[x] > 'Z' || apellido[x] < 'a') && apellido[x] != ' ' && apellido[x] != '-'){
-                output = 0;
-                break;
-            }
-        }
-    }
-    return output;
-}
-
-char* cliente_getCuit(Cliente* this)
-{
-    return this->cuit;
-}
-
-int cliente_setCuit(Cliente* this, char* cuit)
-{
-    int output = -1;
-    if(this != NULL && cliente_isValidCuitTXT(cuit))
-    {
-        strncpy(this->cuit,cuit,(int)sizeof(this->cuit));
-        output = 0;
-    }
-    return output;
-}
-
-int cliente_isValidCuitTXT(char* cuit)
-{
-    int output = 0;
-    int contador = 0;
-    if(cuit != NULL && utn_isNumeric(cuit))
-    {
-        for(int x = 0; cuit[x] != '\0'; x++)
-        {
-            contador++;
-        }
-        if(contador == 11)
-        {
-            output = 1;
-        }
-    }
-    return output;
-}
+/* FUNCIONES EXTRAS  */
 
 int cliente_print(void* pElement)
 {
@@ -208,6 +218,24 @@ int cliente_print(void* pElement)
                 ,cliente_getNombre(aux)
                 ,cliente_getApellido(aux)
                 ,cliente_getCuit(aux));
+        output = 0;
+    }
+    return output;
+}
+
+int cliente_printConAfiche(void* pElement, int afiches)
+{
+    int output = -1;
+    Cliente* aux;
+    aux = (Cliente*)pElement;
+    if(aux != NULL)
+    {
+        printf("%5d %20s %20s %25s %19d \n"
+                                            ,cliente_getId(aux)
+                                            ,cliente_getNombre(aux)
+                                            ,cliente_getApellido(aux)
+                                            ,cliente_getCuit(aux)
+                                            ,afiches);
         output = 0;
     }
     return output;
@@ -248,33 +276,18 @@ int cliente_DoesClientExist(void* pElement, char* cuit)
 
 int cliente_DoesIdExist(void* pElement, int id)
 {
-   int output = 0;
+   int output = 1;
    Cliente* aux = NULL;
    aux = (Cliente*)pElement;
    if(aux != NULL && id >0)
    {
        if(cliente_getId(aux) == id)
        {
-           output = 1;
+           output = 0;
        }
    }
    return output;
 }
-
-
-
-/*      SETTERS      */
-
-
-
-/*      GETTERS      */
-
-
-
-/*      IS_VALID     */
-
-
-
 
 
 
