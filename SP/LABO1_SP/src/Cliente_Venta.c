@@ -146,3 +146,12 @@ int cliente_venta_printIdVentaCuitCliente(void* cliente, void* venta, int id_ven
     }
     return output;
 }
+
+
+/*  POSIBLES FUNCIONES FUTURAS */
+
+
+
+
+
+

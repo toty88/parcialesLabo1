@@ -96,7 +96,7 @@ static int addNode(LinkedList *this, int nodeIndex, void *pElement)
         if (newNode != NULL)
         {
             if (nodeIndex == 0)
-            { // quiero agregar un nodo en la primer posicion
+            { // 1er posicion
                 newNode->pNextNode = this->pFirstNode;
                 this->pFirstNode = newNode;
                 newNode->pElement = pElement;
@@ -104,7 +104,7 @@ static int addNode(LinkedList *this, int nodeIndex, void *pElement)
                 output = 0;
             }
             else
-            { // en el medio
+            { // en el medio o al final
                 prevNode = getNode(this, (nodeIndex-1));
                 if(prevNode != NULL)
                 {
@@ -921,7 +921,31 @@ int ll_sort2(LinkedList* this, pDosEntidades pCriterio)
 }
 
 
+LinkedList* ll_filterToNewListByStr(LinkedList* this, char* str, pFuncCmpStr pCriterio)
+{//agregar mas funciones criterio y hacer un switch
+    void* aux;
+    LinkedList* this2;
+    if(this != NULL && pCriterio != NULL && str != NULL)
+    {
+        this2 = ll_newLinkedList();
+        if(this2 != NULL)
+        {
+            for(int x = 0; x < ll_len(this); x++)
+            {
+                aux = ll_get(this, x);
+                if(aux != NULL)
+                {
+                    if(!(pCriterio(aux, str)))
+                    {
+                        ll_add(this2, aux);
+                    }
+                }
+            }
+        }
 
+    }
+    return this2;
+}
 
 
 

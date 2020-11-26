@@ -4,6 +4,24 @@
 
 static int controller_generateId(char* path, int* bufferID);
 
+static int controller_ListClientes(LinkedList* pArrayListClientes);
+
+static int controller_ListVentas(LinkedList* pArrayListVentas);
+
+static int controller_clienteConMas_MenosAfichesComprados(LinkedList*, LinkedList*, int);
+
+static int controller_ventaConMasAfichesVendidos(LinkedList*, LinkedList*);
+
+static LinkedList*  controller_generarListaPorEstadoCompra(char*, LinkedList*, LinkedList*, int, int*);
+
+/**
+ * @fn int controller_generateId(char*, int*)
+ * @brief funcion privada que calcula el siguiente id en base a un archivo de IDs
+ *
+ * @param path el nombre del archivo y su ubicacion
+ * @param bufferID el int* donde se guardara el ID calculado
+ * @return (-1) Error (0) Todo OK
+ */
 static int controller_generateId(char* path, int* bufferID)
 {
     int output = -1;
@@ -37,16 +55,13 @@ static int controller_generateId(char* path, int* bufferID)
     return output;
 }
 
-static int controller_ListClientes(LinkedList* pArrayListClientes);
-
-static int controller_ListVentas(LinkedList* pArrayListVentas);
-
-static int controller_clienteConMas_MenosAfichesComprados(LinkedList*, LinkedList*, int);
-
-static int controller_ventaConMasAfichesVendidos(LinkedList*, LinkedList*);
-
-static LinkedList*  controller_generarListaPorEstadoCompra(char*, LinkedList*, LinkedList*, int, int*);
-
+/**
+ * @fn int controller_ListClientes(LinkedList*)
+ * @brief funcion privada que lista a traves de un map y una funcion criterio la linked list de Clientes
+ *
+ * @param pArrayListClientes la linked list de Clientes
+ * @return (-1) Error (0) Todo OK
+ */
 static int controller_ListClientes(LinkedList* pArrayListClientes)
 {
     int output = -1;
@@ -61,6 +76,13 @@ static int controller_ListClientes(LinkedList* pArrayListClientes)
     return output;
 }
 
+/**
+ * @fn int controller_ListVentas(LinkedList*)
+ * @brief funcion privada que lista a traves de un map y una funcion criterio la linked list de Ventas
+ *
+ * @param pArrayListVentas la linked list de Ventas
+ * @return (-1) Error (0) Todo OK
+ */
 static int controller_ListVentas(LinkedList* pArrayListVentas)
 {
     int output = -1;
@@ -759,7 +781,7 @@ int controller_removeCliente(LinkedList* pArrayListClientes)
                             && bufferBaja == 0)
                     {
                         bufferListIndex = ll_indexOf(pArrayListClientes, aux);
-                        if(bufferListIndex > 0
+                        if(bufferListIndex >= 0
                                 && !(cliente_delete(aux))
                                 && !(ll_remove(pArrayListClientes, bufferListIndex))
                                 && !(controller_saveClientesAsText("clientes.txt", pArrayListClientes)))
@@ -784,16 +806,16 @@ int controller_removeCliente(LinkedList* pArrayListClientes)
 
 */
 
-/*int controller_sortProducto(LinkedList* pArrayListProductos)
+/*int controller_sortVentas(LinkedList* pArrayListVentas)
 {
     int output = -1;
     int bufferOrder;
     int bufferSortMenu;
-    if(pArrayListProductos != NULL)
+    if(pArrayListVentas != NULL)
     {
         do
         {
-            if(!(menu_SortProducto(&bufferSortMenu)))
+            if(!(menu_SortVentas(&bufferSortMenu)))
             {
                 switch(bufferSortMenu)
                 {

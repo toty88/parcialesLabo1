@@ -49,7 +49,9 @@ LinkedList* ll_clone(LinkedList* this);
 
 int ll_mapInt(LinkedList*, pCalcMaxInt, int*);
 int ll_sort3(LinkedList*, LinkedList*, pFuncDobleSort);
-int ll_mapStr(LinkedList*, char*, int (*pFuncCmpStr)(void*,char*));
+
+int ll_mapStr(LinkedList*, char*, pFuncCmpStr);
+LinkedList* ll_filterToNewListByStr(LinkedList* this, char* str, pFuncCmpStr);
 
 int ll_map(LinkedList*, pMap);
 int ll_filter(LinkedList*, pMap);
@@ -67,7 +69,8 @@ LinkedList* ll_filterToNewListByInt(LinkedList*, LinkedList*, pDosByInt, int);
 int ll_reduceIntMinMax(LinkedList*, void*, pReduceInt, int*, int);
 void* ll_filterByInt(LinkedList*, LinkedList*, pReduceInt, int*, int*, int);
 
+
+
 /*
-LinkedList* ll_filterToNewListByStr(LinkedList* this, int (*pFunc)(void*, char*), char* str);
 int ll_reduceFloat(LinkedList* this, int (*pCriterio)(void*, float*), float*);
 */
